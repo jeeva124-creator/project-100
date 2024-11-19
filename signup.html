@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/assets/pages/css/signup.css ">
+</head>
+<body>
+    <form id="form" novalidate>
+        <h1 class="form_heading">Sign up</h1>
+        <label for="name">Name</label>
+        <input type="text" id="name" required minlength="3" maxlength="12">
+        <span id="errorName" class="error"></span>
+   
+        <span id="errorSecondName" class="error"></span>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" required>
+        <span id="errorEmail" class="error"></span>
+        <label for="password">Password</label>
+        <input type="password" id="password" required minlength="6">
+        <span id="errorPassword" class="error"></span>
+        <button type="submit" id="btn">Sign up</button>
+        <a href="./login.html" id="login_page">Already have an account</a>
+    </form>
+</body>
+<script type="module" src="./assets/pages/js/signup.js"></script>
+</html>

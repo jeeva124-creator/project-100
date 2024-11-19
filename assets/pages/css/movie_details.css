@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body {
+  width: 90%px;
+  height: 90%;
+}
+html {
+  background-color: black;
+  color: white;
+}
+.View-All-shows {
+  background-color: orangered;
+  color: white;
+  width: 150px;
+  height: 50px;
+  margin: 15px;
+}
+h1 {
+  margin: 13px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  width: 90%;
+  margin-left: 100px;
+}
+.movie-detials {
+  display: flex;
+}
+
+.logeout-btn {
+  margin-right: 20px;
+  margin-top: 20px;
+  font-size: 30px;
+}
+.movie-detials {
+  display: flex;
+  justify-content: space-between;
+}
+.movie_trailer iframe {
+  width: 90%;
+  height: 650px;
+  margin-left: 100px;
+}
+.movie-det {
+  display: flex;
+  width: 200px;
+ 
+}
+.movie-det p {
+  color: #b1b1b2;
+  margin-left: 20px;
+}
+.movie-about {
+  width: 500px;
+  margin: 50px;
+}
+.top-cast {
+  display: flex;
+}
+.top-cast img {
+  width: 100px;
+  border-radius: 50%;
+  height: 100px;
+}
+.leade {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+.leade p {
+  margin: 20px;
+}
+.sup {
+  display: flex;
+  align-items: center;
+}
+.sup p {
+  margin: 20px;
+}
+.top-cast {
+  width: 600px;
+  margin-left: 100px;
+ 
+}
+h2{
+  margin-left: 100px; 
+}
+.movie-type {
+  margin: 20px;
+  margin-left: 100px;
+}
+
+.Sunopsis{
+  margin-left: 100px;
+}
+
+.Sunopsis p{
+  color: #b1b1b2;
+}
