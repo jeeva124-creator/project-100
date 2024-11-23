@@ -1,23 +1,3 @@
-
-[{
-"id": "1",
-"title": "Black",
-"rating": "★★★★☆",
-"releaseDate": "5 Oct, 2024",
-"duration": "2h 15m",
-"language": "English",
-"genre": "Action, Thriller",
-"description": "An epic action-thriller that keeps you on the edge of your seat.",
-"poster": "/assets/images/black.jpg",
-"about": "A violent storm and unsettling forces unravel their marriage. Vasanth must uncover the truth behind these supernatural occurrences before everything falls apart.A young couple move into a serene row house, eager for peace and privacy. A violent storm and unsettling forces unravel their marriage.",
-"cast": [
-    {"name": "Jiiva", "role": "Actor", "image": "/assets/images/jiiva.jpg"},
-    {"name": "Priya Bhavani Shankar", "role": "Actress", "image": "/assets/images/priya-bhavani-shankar.jpg"}
-],
-"crew": [
-    {"name": "KG Balasubramani", "role": "Director", "image": "/assets/images/kg.avif"},
-    {"name": "S. R. Prakash Babu", "role": "Producer", "image": "/assets/images/SR-Prabhu.jpg"}
-],
+{
+    "liveServer.settings.port": 5501
 }
-
-]

@@ -1,4 +1,5 @@
 // Import the necessary functions from Firebase SDKs
+console.log("clicked signout")
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
@@ -38,7 +39,7 @@ function clearErrors() {
 const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{5,15}$/; 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; 
-
+form.addEventListener("submit", (event) => hanleLogin(event));
 // Function to validate form fields
 function validateForm() {
     clearErrors();
@@ -76,7 +77,7 @@ function remocelogianbtn() {
 function removloginbtl() {
    
 }
-
+const username=document.getElementById("loggedInUser")
 // Form submission event listener
 form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -93,6 +94,8 @@ form.addEventListener("submit", function (event) {
             alert("Account created successfully!");
             window.location.href = "/index.html"; // Redirect after successful signup
             removloginbtl(); // Re-enable login button
+            localStorage.setItem("username",nameInput)
+            
         })
         .catch((error) => {
             alert(`Error: ${error.message}`);

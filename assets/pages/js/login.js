@@ -1,10 +1,12 @@
 // Import Firebase SDK functions
+console.log("clicked signout")
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+// import { checkLoggedIn } from "./isloggedIn";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -29,7 +31,8 @@ const passwordInput = document.getElementById("password");
 const confirmPasswordError = document.getElementById("confirmpasswordError");
 const confirmEmailError = document.getElementById("confirmEmailError");
 const Email = document.getElementById("confirmEmailError");
-const logeout=document.getElementById("logeout-btn")
+let logeout=document.getElementById("logeout-btn") 
+console.log(logeout)
 
 form.addEventListener("submit", (event) => hanleLogin(event));
 
@@ -55,10 +58,12 @@ function hanleLogin(event) {
   }
 
 
-  signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email, password,)
     .then((userCredential) => {
    
       alert("Login successful!");
+      // checkLoggedIn(true)
+      localStorage.setItem("loggedInAccount",email)
       window.location.href = "../../../index.html"; // Redirect upon success
  
     })
@@ -70,10 +75,6 @@ function hanleLogin(event) {
       success=false
     });
 }
-document.getElementById("logeout").addEventListener("click", function() {
-  // Log out logic
-  alert("Logging out..."); // This can be replaced with actual log-out logic
 
-  
-  window.location.href = "../../../index.html"; // Replace with your logout URL
-});
+
+

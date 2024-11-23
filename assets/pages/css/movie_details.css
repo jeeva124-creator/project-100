@@ -88,9 +88,6 @@ header {
   margin-left: 100px;
  
 }
-h2{
-  margin-left: 100px; 
-}
 .movie-type {
   margin: 20px;
   margin-left: 100px;
@@ -102,4 +99,10 @@ h2{
 
 .Sunopsis p{
   color: #b1b1b2;
+}
+.Sunopsis h2{
+  margin-left: 0px; 
+}
+.topcast h2{
+  margin-left: 100px;
 }
