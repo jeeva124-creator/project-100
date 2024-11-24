@@ -65,7 +65,6 @@ function hanleLogin(event) {
       // checkLoggedIn(true)
       localStorage.setItem("loggedInAccount",email)
       window.location.href = "../../../index.html"; // Redirect upon success
- 
     })
     .catch((error) => {
       // Display error

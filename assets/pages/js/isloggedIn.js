@@ -6,6 +6,7 @@ document.getElementById("loggedInUser").innerText = account;
 
 }
 
+
 // const logeout=document.querySelector(".logeout-btn")
 // logeout.addEventListener("click",(e)=>{
 

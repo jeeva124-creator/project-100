@@ -12,7 +12,7 @@ import {
     appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
     measurementId: "G-ZK48NYGYDP",
   };
-  
+
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
@@ -22,15 +22,17 @@ document.getElementById("logeout-btn").addEventListener("click", function() {
     // Log out logic
     console.log("clicked signout")
     alert("Logging out..."); // This can be replaced with actual log-out logic
-  
+   
     signOut(auth).then(() => {
       // Sign-out successful.
       console.log("clicked signout")
       localStorage.clear();
+      document.getElementById("logeout-btn").style.display="none";
+   
       
-    }).catch((error) => {
+        }).catch((error) => {
       // An error happened.
     });
-    
-    window.location.href = "../../../index.html"; // Replace with your logout URL
+    window.location.href = "../../../index.html"; 
 })
+
