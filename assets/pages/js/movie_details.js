@@ -27,7 +27,6 @@ async function setMovieDetails() {
     data.forEach((show) => {
       if (show.id == selectedShowId ) {
         movieDetails = show;
-
       }
     });
     // movieDetails.title
@@ -41,9 +40,9 @@ async function setMovieDetails() {
 
      <div class="title">
          <h1>${movieDetails.title}</h1>
-         <p> Action / 2hr34mins</p>
+         <p>${movieDetails.RunTime}</p>
      </div>
-     <button type="button" class="View-All-shows">View All shows</button>
+   <a href=../../../theaters.html?id=${movieDetails.id}&moviename=${movieDetails.title} <button type="button" class="View-All-shows">View All shows</button> </a>
      </div>
  </header>
  <section>
@@ -106,8 +105,7 @@ async function setMovieDetails() {
  </div>
 
 `
-    } else {
-
+   } else {
       movieHeading.textContent = "No such movie"
       console.error(window.location.href="../../../error.html");
     }
