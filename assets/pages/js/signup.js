@@ -35,7 +35,7 @@ function clearErrors() {
 }
 
 // Regular expressions for validation//
-const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{5,15}$/; 
+const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{4,15}$/; 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; 
 form.addEventListener("submit", (event) => hanleLogin(event));

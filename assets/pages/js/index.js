@@ -28,13 +28,27 @@ fetch("/assets/data/movies.json")
     });
   })
   .catch((error) => console.error("Failed to fetch movies:", error)); 
-
-searchBar.addEventListener("input", (e) => {
-  const value = e.target.value.toLowerCase(); 
-
-  movies.forEach((movie) => {
-    const isVisible = movie.name.includes(value); 
-    movie.element.style.display = isVisible ? "block" : "none";
+  searchBar.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase();
   
+    let isAnyMovieVisible = false;
+  
+    movies.forEach((movie) => {
+      const isVisible = movie.name.toLowerCase().includes(value);
+      movie.element.style.display = isVisible ? "block" : "none";
+  
+      if (isVisible) {
+        isAnyMovieVisible = true;
+      }
+    });
+  
+    const messageElement = document.getElementById("not-found-message");
+  
+    if (!isAnyMovieVisible) {
+      messageElement.textContent = "Movie not found";
+      messageElement.style.display = "block";
+    } else {
+      messageElement.style.display = "none";
+    }
   });
-});
+  
