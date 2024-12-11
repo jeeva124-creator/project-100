@@ -105,11 +105,13 @@ async function setMovieDetails() {
  </div>
 
 `
-   } else {
+   }
+    else {
       movieHeading.textContent = "No such movie"
       console.error(window.location.href="../../../error.html");
     }
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error fetching movie details:", error);
   }
 }
