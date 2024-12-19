@@ -29,11 +29,9 @@ async function setMovieDetails() {
         movieDetails = show;
       }
     });
-    // movieDetails.title
+   
     if (movieDetails) {
-      // console.log(movieDetails);
-      movieHeading.textContent = movieDetails.title
-      console.log(movieDetails);
+   
     document.body.innerHTML=  
     `
      <header>

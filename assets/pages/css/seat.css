@@ -24,6 +24,7 @@ body {
 }
 
 .back-button {
+  text-decoration: none;
   background: none;
   border: none;
   color: white;
@@ -133,15 +134,17 @@ main {
 
 /* Legend Styling */
 .legend {
-  display: flex;
+ display: flex;
   justify-content: center;
   gap: 20px;
   font-size: 14px;
   margin-top: 20px;
 }
 .seats{
-width: 800px;
+  
+width: 60%;
 margin-left: 220PX;
+
 }
 .legend div {
   display: flex;

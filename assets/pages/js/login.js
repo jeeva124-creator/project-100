@@ -28,8 +28,6 @@ const form = document.querySelector("form");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const confirmPasswordError = document.getElementById("confirmpasswordError");
-const confirmEmailError = document.getElementById("confirmEmailError");
-const Email = document.getElementById("confirmEmailError");
 let logeout=document.getElementById("logeout-btn") 
 console.log(logeout)
 

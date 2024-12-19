@@ -12,10 +12,9 @@ fetch("/assets/data/theater.json")
       div.innerHTML = `
         <img src="${theater.img}" alt="${theater.theatername}">
         <h2>${theater.theatername}</h2>
-        <a href="../../../../&moviename=${theater.name}/Seat.html?id=${
-          theater.id
-        }&theatername=${encodeURIComponent(theater.theatername)}">
-         <button type="button" class="BookNow">07:15</button>
+        <a href="../../../Seat.html?id=${
+          theater.id}&theatername=${encodeURIComponent(theater.theatername)}&moviename=${theater.name}">
+         <button type="button" class="BookNow"  >07:15</button>
           <button type="button" class="BookNow">04:15</button>
         </a>
       `;
@@ -37,13 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const today = new Date();
   const daysToShow = 7;
   let selectedDate = null;
-console.log(today);
+  console.log(today);
 
 
   for (let i = 0; i < daysToShow; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
-console.log(date)
+    console.log(date)
     const button = document.createElement("button");
     button.classList.add("date-button");
     button.textContent = date.toDateString();
@@ -55,10 +54,8 @@ console.log(date)
       button.classList.add("active");
       selectedDate = button.dataset.date;
     });
-
     dateButtonsContainer.appendChild(button);
   }
-
 confirmDateButton.addEventListener("click", (e) => {
   e.preventDefault()
     if (selectedDate) {
@@ -71,7 +68,6 @@ confirmDateButton.addEventListener("click", (e) => {
     }
   })
 })
-
    // urlParams
 const Languages=document.getElementsByClassName("Languages")
 const queryString = window.location.search;
@@ -104,7 +100,6 @@ try {
     }
   });
   if (movieDetails) {
-    
     moviename.innerHTML = 
    `
   <h2>${movieDetails.name}</h2>
@@ -115,4 +110,3 @@ catch (error) {
   // console.error("Error fetching movie details:", error);
 }
 }
-

@@ -16,7 +16,7 @@ fetch("/assets/data/movies.json")
           <h3>${show.name}</h3> 
           <p>${show.category}</p>
           <button class="show">Book Ticket</button>
-        </a>`;
+         </a>`;
       
       head.append(div); 
       return {
