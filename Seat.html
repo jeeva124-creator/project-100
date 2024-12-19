@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,27 +6,29 @@
     <title>Seat Selection</title>
     <link rel="stylesheet" href="../css/seat-selection.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="./assets/pages/js/seat.js"></script>
+    <script src="./assets/pages/js/seat.js" defer></script>
     <link rel="stylesheet" href="/assets/pages/css/seat.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
-        <button class="back-button" href="shows&theatres.html">←</button>
+        <!-- <button  href="../theaters.html" >←</button> -->
+        <a class="back-button" href="../theaters.html" >←</a>
         <div>
-            <h1 style="font-size: 25px;color: blue"></h1>
+            <h1 style="font-size: 25px;color: white"></h1>
             <p></p>
         </div>
         <span id="ticketSummary" class="ticket-count">0 Tickets</span>
     </header>
-    <!-- Seat Layout -->
+  
     <main>
         <div class="seat-section">
             <!-- Rs. 190 Section -->
             <div class="seat-row">
                 <div class="row-title">Rs. 190</div>
                 <div class="seats" id="rs190">
-                    <!-- Seats dynamically added via JS -->
+                    
                 </div>
             </div>
             <!-- Rs. 60 Section -->
@@ -37,7 +40,7 @@
             </div>
         </div>
         <!-- Screen Indicator -->
-        <div class="screen"><p>All eyes this way please!</p><img src="../images/screen-icon.8dd7f126.jpg" alt="" width="600px"></div>
+        <div class="screen"><p>All eyes this way please!</p><img src="https://assets-in.bmscdn.com/m6/images/seat-layout/cinema-screen.png" alt="" width="600px"></div>
         <!-- Legends -->
         <div class="legend">
             <div><span class="seat bestseller"></span> Bestseller</div>
@@ -53,13 +56,10 @@
         <a id="confirmBooking"  class="confirm-ticket"><i class="fa fa-spinner fa-spin"></i>Confirm</a>
     </div>
     <div id="loading" class="loading-spinner"></div>
-    <script type="module" src="../scripts/seat-selection.js"></script>
-    <!-- <script src="//code.tidio.co/odorcjjrzhu3eeqm6osngauulfzmbqiz.js" async></script> -->
 </body>
 </html>
 
 
-Message Kottai Samy
 
 
 
