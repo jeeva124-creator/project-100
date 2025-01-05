@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seat Selection</title>
-    <link rel="stylesheet" href="../css/seat-selection.css">
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="./assets/pages/js/seat.js" defer></script>
+    <script src="/assets/pages/js/seat.js" type="module" defer ></script>
     <link rel="stylesheet" href="/assets/pages/css/seat.css">
 </head>
 
@@ -23,23 +23,9 @@
     </header>
   
     <main>
-        <div class="seat-section">
-            <!-- Rs. 190 Section -->
-            <div class="seat-row">
-                <div class="row-title">Rs. 190</div>
-                <div class="seats" id="rs190">
-                    
-                </div>
-            </div>
-            <!-- Rs. 60 Section -->
-            <div class="seat-row">
-                <div class="row-title">Rs. 60</div>
-                <div class="seats" id="rs60">
-                    <!-- Seats dynamically added via JS -->
-                </div>
-            </div>
-        </div>
-        <!-- Screen Indicator -->
+   <div class="layout">
+    
+   </div>
         <div class="screen"><p>All eyes this way please!</p><img src="https://assets-in.bmscdn.com/m6/images/seat-layout/cinema-screen.png" alt="" width="600px"></div>
         <!-- Legends -->
         <div class="legend">
@@ -53,7 +39,7 @@
     <div id="popup" class="popup">
         <p id="selectedSeats">Selected Seats: None</p>
         <p id="totalPrice">Total Price: ₹0</p>
-        <a id="confirmBooking"  class="confirm-ticket"><i class="fa fa-spinner fa-spin"></i>Confirm</a>
+        <a id="confirmBooking"  class="confirm-ticket">Confirm</a>
     </div>
     <div id="loading" class="loading-spinner"></div>
 </body>
