@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="module" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" defer></script>
+    <script type="module" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+
+    <style>
+        .movie-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  flex-wrap: wrap;
+  /* border: 1px solid black; */
+  padding: 20px;
+  width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.movie-container h3{
+    text-align: center;
+}
+.movies-flux img {
+  width: 200px;
+  height: auto;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.movies-flux {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px;
+}
+
+.delete{
+    margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #ffffff;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+    </style>
+</head>
+
+<body>
+    
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">CineWorld Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+           
+                <li class="nav-item">
+                    <a class="nav-link" href="./ManageMovies.html">Manage Movies</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="./admin.html">Add Movie <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="movies-flux">
+  
+        <P class="not-found-message"></P>
+      </main>
+    
+</body>
+<script src="/assets/pages/js/ManageMovies.JS" type="module" ></script>
+</html>

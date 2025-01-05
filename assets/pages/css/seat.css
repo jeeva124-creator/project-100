@@ -33,6 +33,21 @@ body {
   font-weight: bold;
   margin-right: 10px;
 }
+.column{
+  border: 1px solid green;
+  height: 23px;
+  width: 23px;
+ padding: 4px;
+  color: gray;
+  text-align: center;
+  
+  margin: 10px;
+  align-items: center;
+}
+.column:hover{
+  color: white;
+  background-color: green;
+}
 
 .ticket-count {
   background: white;
@@ -49,25 +64,7 @@ main {
   padding: 20px;
 }
 
-.seat-section {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
 
-.seat-row {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.row-title {
-  font-size: 16px;
-  font-weight: bold;
-  flex-shrink: 0;
-  width: 80px;
-  text-align: right;
-}
 
 .seats {
   display: flex;
@@ -118,7 +115,10 @@ main {
   text-align: center;
   margin: 30px 0;
 }
-
+.removie{
+  border: none ;
+  background-color: white;
+}
 .screen p {
   font-size: 14px;
   font-weight: bold;
@@ -163,7 +163,7 @@ margin-left: 220PX;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 98%;
   background-color: #fff;
   border-top: 2px solid #ddd;
   padding: 15px 20px;
@@ -172,6 +172,7 @@ margin-left: 220PX;
   align-items: center;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
+
 
 .popup p {
   margin: 0;
@@ -213,11 +214,14 @@ margin-left: 220PX;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
+.hide{
+  visibility: hidden;
+}
+
+
+.row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
 }

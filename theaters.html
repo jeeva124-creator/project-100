@@ -5,42 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/pages/css/style.css">
-    <script src="./assets/pages/js/theaters.js" defer></script>
+    <script src="./assets/pages/js/theaters.js" type="module"></script>
     <link rel="stylesheet" href="./assets/pages/css/theaters.css">
-    <script src="assets/pages/js/index.js" defer></script>
-    <link rel="stylesheet" href="./assets/pages/css/style.css">
   <script src="./assets/pages/js/isloggedIn.js" defer></script>
-  <script src="./assets/pages/js/signout.js" type="module" defer></script>
 </head>
 <body>
     
     <header>
-        <img src="./assets/logo/logo1.png" alt="logo"  class="logo">
-          <div class="search-bar">
-
-              <!-- <button class="fa-solid fa-right-from-bracket" id="logeout-btn"></button> -->
-              <a href="login.html" id="loginButtonx"><button id="btn">Login</button></a>
-              <p id="loggedInUser"></p>
-          </div>
+        <div class="logo"> <img src="./assets/logo/logo1.png" alt="logo" class="logo"></div>
+        
+        <nav>
+          <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Movies</a></li>
+              <li><a href="#">Contact</a></li>
+          </ul>
+      </nav>
+        <div class="user-actions">
+          <a href="login.html" id="loginButton"> <button id="loginButton">Login</button></a>
+          <!-- <button id="cart-btn">Cart</button> -->
+          <a href="login.html" id=""> <button id="logout-btn">Logout</button></a>
+          <p id="loggedInUser"></p>
+        </div>
       </header>
-      <div class="movie-detial">
-
+    
+      <img src="/assets/image/dweb-banner.4a3c14ac.avif" alt="" width="100%">
+      <div class="container-movie">
+        <div class="movieName"></div>
+        <div id="dateContainer"></div>
+     
       </div>
-      <section>
-        <section class="date-selection">
-            <div class="">
-        <h1 class="movieName"></h1>
-        <p class="Languages" ></p>   
-        
-    </div>
-            <div class="date-buttons" id="dateButtons">
-        
-            <p id="selectedDateDisplay"></p>
-        </section>
-        
-<div>
-     <h1 class="tittle"></h1>
-</div>
     <div class="show-theaters"> </div>
 
 </body>

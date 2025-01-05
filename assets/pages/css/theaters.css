@@ -1,10 +1,28 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+    font-family: "Karla", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    color: red;
+  }
+  
+  header .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  
+  
 .show-theaters  a img{
      height: 200px;
      padding: 20px;
@@ -13,34 +31,59 @@
      text-decoration: none;
      text-align: center;
 }
+
+
+.movieName img{
+  width: 200px;
+  border-radius: 10px;
+  height: 300px;
+}
+.movieName{
+  margin-left:50px;
+}
+.movieName p h1 {
+
+  text-align: center;
+}
 .show-theaters{
 display: flex;
  justify-content: space-around;
- margin-top: 100px;
+
 }
+.container-movie{
+  display: flex;
+  justify-content: space-between;
+}
+
+
 
 .show-theaters p{
   color: black;
   text-decoration: none;
-}
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-}
+} 
+
 main {
   padding: 20px;
   text-align: center;
 }
+
 .date-selection {
-  /* margin: 20px auto; */
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  border: 1px solid;
+display: flex;
+}
+#dateContainer{
   display: flex;
+
+
+}
+.dateItems{
+  gap: 10px;
+  border: 1px solid;
+  padding:5px ;
+  margin: 10px;
+  border-radius:7px ;
+  height: 40px;
+  margin-top: 5px;
+
 
 }
 
@@ -51,32 +94,17 @@ main {
   align-items: center;
   gap: 15px;
 }
-.date-button {
-  border: none;
-  background-color: white;
-  color: black;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 15px;
-  width: 40px;
-  border: 1px solid;
-  height: 70px;
-  transition: all 0.3s ease;
-}
 
-.date-button:hover {
+.dateItems:hover {
   background-color:red;
   color: white;
 }
-.date-button.active {
+.dateItems.active {
   background-color:red;
   color: white;
   font-weight: bold;
 }
-.date-selection{
-  display: flex;
-  justify-content: space-around;
-}
+
 .btn {
   height: 100px;
   background-color:red;
@@ -87,31 +115,43 @@ main {
   font-size: 16px;
   border-radius: 5px;
 }
-#selectedDateDisplay {
-  margin-top: 10px;
+
+.dateActive{
+  background-color: rgb(255, 0, 0);
+  color: #f8f9fa;
 }
-.BookNow{
-  border: none;
-  border: 1px solid red;
-  color: red;
-  padding: 10px;
-}
-.BookNow:hover{
-  background-color: red;
-  color: white;
-}
+
+
 .theater{
-  height: 300px;
+  height: 350px;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
   text-align: center;
+  justify-content: space-between;
+  padding: 30px;
 }
 .theater:hover{
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
-.theater a{
-  text-decoration: none;
-  color: black;
+.theater h2{
+  margin: 20px;
 }
+.theater a  {
+  color: white;
+  background-color: red;
+  border: none;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 120px;
+}
+.theater a:hover {
+    color: red;
+    background-color: white;
+    border: 1px solid red;
+  }
+
 .theater img{
    width: 300px;
    height: 200px;

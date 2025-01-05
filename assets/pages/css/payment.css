@@ -1,0 +1,103 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #f39c12;
+    margin: 20px 0;
+}
+
+/* Header Styling */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Centering Payment Form */
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 60px; /* Space for fixed header */
+}
+
+.form-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #f39c12;
+    box-shadow: 0 0 5px rgba(243, 156, 18, 0.5);
+}
+
+/* Continue Button (Anchor Tag) */
+.continue-btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    background-color: #f39c12;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.continue-btn:hover {
+    background-color: #e67e22;
+}

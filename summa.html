@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+ <script type="module">
+    //   <!-- Firebase App -->
+ 
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+    // Firebase configuration
+  
+    const firebaseConfig = {
+    apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
+    authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
+    databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
+    projectId: "movie-ticket-booking-a713e",
+    storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
+    messagingSenderId: "791048807463",
+    appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
+    measurementId: "G-ZK48NYGYDP"
+  };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    // Reference to a specific path in the database (e.g., 'users')
+    const usersRef = ref(db, '/');
+
+   
+    onValue(usersRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();  // Get the data as an object
+        console.log(data);  
+      } else {
+        console.log('No data available');
+      }
+    });
+</script>
+</html>

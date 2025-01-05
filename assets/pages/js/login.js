@@ -56,11 +56,15 @@ function hanleLogin(event) {
 
   signInWithEmailAndPassword(auth, email, password,)
     .then((userCredential) => {
-   
+      document.getElementById("logout-btn").style.display="none";
+
       alert("Login successful!");
       // checkLoggedIn(true)
       localStorage.setItem("loggedInAccount",email)
-      window.location.href = "../../../index.html"; // Redirect upon success
+      window.location.href = "../../../index.html";
+      
+
+      // Redirect upon success
     })
     .catch((error) => {
       // Display error

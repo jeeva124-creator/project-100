@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Movie - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/assets/pages/js/admin.js" type="module" defer></script>
+
+    <script type="module" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" defer></script>
+    <script type="module" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .img-preview {
+            width: 100px;
+            height: 150px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+    .alert{
+text-align: center;
+background-color: rgb(1, 255, 73);
+width: 100%;
+display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">CineWorld Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="./ManageMovies.html" >Manage Movies<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="./admin.html">Add Movie </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+ 
+    <div class="container">
+        <h2>CineWorld</h2>
+
+        <form id="addMovieForm" enctype="multipart/form-data">
+            <label for="movieId">Movie ID:</label>
+            <input type="text" id="movieId" name="movieId" required><br>
+            <div class="form-group">
+                <label for="movieName">Movie Name</label>
+                <input type="text" class="form-control" id="movieName" name="title" required
+                    placeholder="Enter Movie Name">
+            </div>
+            <div class="form-group">
+                <label for="movieGenre">movie img</label>
+                <input type="url" class="form-control" id="Genre" name="movieImg" required
+                    placeholder="Enter movie img url">
+            </div>
+            <div class="form-group">
+                <label for="movieName">category</label>
+                <input type="text" class="form-control" id="movieName" name="category" required
+                    placeholder="Enter movie category">
+            </div>
+            <div class="form-group">
+                <label for="movieName">Languages
+                </label>
+                <input type="text" class="form-control" id="movieName" name="Languages" required placeholder="Enter Movie Languages
+                ">
+            </div>
+            <div class="form-group">
+                <label for="movieName">Rating
+                </label>
+                <input type="text" class="form-control" id="Rating" name="Rating" required placeholder="Enter Movie Rating
+                ">
+            </div>
+            <div class="form-group">
+                <label for="movieName">ReleaseDate
+                </label>
+                <input type="datetime" class="form-control" id="ReleaseDate" name="ReleaseDate" required placeholder="Enter Movie ReleaseDate
+                ">
+            </div>
+            <div class="form-group">
+                <label for="movieName">showtimes
+                </label>
+                <input type="text" class="form-control " id="showtimes" name="RunTime" required placeholder="Enter Movie RunTime
+                :">
+            </div>
+            <div class="form-group">
+                <label for="Trailer">Trailer
+
+                </label>
+                <input type="url" class="form-control" id="Trailer" name="Trailer" required placeholder="Enter Movie trailer Url
+
+                ">
+            <div class="form-group">
+                <label for="movieName">TopCast-lead
+                </label>
+                <input type="text" class="form-control" id="TopCast-lead" name="TopCast-lead" required placeholder="Enter Movie TopCast-lead
+                :">
+            </div>
+            <div class="form-group">
+                <label for="movieName">Toplead-img
+                </label>
+                <input type="url" class="form-control" id="lead-img" name="lead-img" required placeholder="Enter lead-img Url
+                ">
+            </div>
+       
+            </div>
+         
+   
+            <div class="form-group">
+                <label for="movieName">sub-name
+                </label>
+                <input type="text" class="form-control" id="lead-img" name="sub-name" required placeholder="Enter the subname
+                ">
+            </div>
+            <div class="form-group">
+                <label for="sub-img">sub-img
+                </label>
+                <input type="url" class="form-control" id="lead-img" name="sub-img" required placeholder="Enter Movie lead-img url
+                ">
+            </div>
+            <div class="form-group">
+                <label for="movieName">Director
+                </label>
+                <input type="text" class="form-control" id=">Director" name="Director" required placeholder="Enter Movie Director
+                ">
+            </div>
+
+            <div class="form-group">
+                <label for="movieDescription">Movie Description</label>
+                <textarea class="form-control" id="movieDescription" rows="4" name="Sunopsis"
+                    placeholder="Enter a brief description of the movie"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+            <p class="alert"> Data Added Successfully</p>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

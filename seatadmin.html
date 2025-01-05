@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theatre Seat Arrangement</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .seat-layout {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            white-space: pre;
+        }
+
+        .seat-row {
+            margin: 5px 0;
+            padding: 5px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+        import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
+            authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
+            databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
+            projectId: "movie-ticket-booking-a713e",
+            storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
+            messagingSenderId: "791048807463",
+            appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
+            measurementId: "G-ZK48NYGYDP",
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const theatres = {
+            "BSR cinepolis ": [
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
+                "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
+                "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
+                "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
+                "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
+            ],
+            "PVR": [
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X_ _ _ _ _ _ ",
+            ],
+            "Rohini ": [
+                "X X X X X X X X X X X X X _ _ _ _ _ _ _ _ X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X"
+            ]
+        };
+
+        // Function to preprocess layout with row-based seat numbering
+        const preprocessLayout = (layout) => {
+            return layout.map(row => {
+                let seatNumber = 1;
+                return row.split(' ').map(char => {
+                    if (char === 'X') {
+                        return seatNumber++;
+                    }
+                    return char;
+                }).join(' ');
+            });
+        };
+
+        // Render the selected layout
+        const renderSeatLayout = (layout) => {
+            const seatLayoutContainer = document.querySelector('.seat-layout');
+            seatLayoutContainer.innerHTML = ""; // Clear existing content
+
+            layout.forEach(row => {
+                const rowElement = document.createElement('div');
+                rowElement.classList.add('seat-row');
+                rowElement.textContent = row;
+                seatLayoutContainer.appendChild(rowElement);
+            });
+        };
+
+        // Save seat layout to Firebase
+        const saveSeatLayoutToFirebase = async (theatre, layout) => {
+            const processedLayout = preprocessLayout(layout);
+            const seatRef = ref(db, `theatres/${theatre}/seats`);
+            try {
+                await set(seatRef, processedLayout);
+                console.log(`${theatre} seat layout saved to Firebase`);
+            } catch (error) {
+                console.error(`Error saving ${theatre} seat layout:`, error);
+            }
+        };
+
+        // Update Seat Layout when Theatre is Selected
+        const theatreSelect = document.getElementById('theatreSelect');
+        const updateSeatsBtn = document.getElementById('update-seats-btn');
+
+        let selectedLayout = []; // To store the selected layout
+
+        theatreSelect.addEventListener('change', () => {
+            const selectedTheatre = theatreSelect.value;
+            if (selectedTheatre) {
+                selectedLayout = theatres[selectedTheatre];
+                renderSeatLayout(selectedLayout);
+            } else {
+                document.querySelector('.seat-layout').innerHTML = ""; // Clear seat layout if no theatre is selected
+            }
+        });
+
+        // Save the selected layout to Firebase when the button is clicked
+        updateSeatsBtn.addEventListener('click', () => {
+            const selectedTheatre = theatreSelect.value;
+            if (selectedTheatre && selectedLayout.length > 0) {
+                saveSeatLayoutToFirebase(selectedTheatre, selectedLayout);
+                alert(`${selectedTheatre} layout updated successfully!`);
+            } else {
+                alert("Please select a theatre and a layout first.");
+            }
+        });
+
+        // Populate Theatre Dropdown
+        Object.keys(theatres).forEach(theatre => {
+            const option = document.createElement('option');
+            option.value = theatre;
+            option.textContent = theatre;
+            theatreSelect.appendChild(option);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Theatre Seat Arrangement</h1>
+
+        <label for="theatreSelect">Select Theatre:</label>
+        <select id="theatreSelect">
+            <option value="">--Select a Theatre--</option>
+        </select>
+
+        <button id="update-seats-btn">Update Seat Layout</button>
+
+        <div class="seat-layout">
+            <!-- Seat Layout will be rendered here -->
+        </div>
+    </div>
+</body>
+
+</html>

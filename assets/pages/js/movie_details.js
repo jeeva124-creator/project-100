@@ -1,115 +1,132 @@
-const queryString = window.location.search;
-console.log("url is :" + queryString);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+// Firebase configuration
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
+  authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
+  databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
+  projectId: "movie-ticket-booking-a713e",
+  storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
+  messagingSenderId: "791048807463",
+  appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
+  measurementId: "G-ZK48NYGYDP",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+// Reference to a specific path in the database (e.g., 'users')
+let queryString=window.location.search
 const urlParams = new URLSearchParams(queryString); // class
-const selectedShowId = urlParams.get("id");
+const selectedShowId = urlParams.get("movieId");
+const usersRef = ref(db, `movies/${selectedShowId}`);
 
-console.log("id : " + selectedShowId);
 
-
-const movieName = urlParams.get("movieName");
-console.log("movieName :" + movieName);
-
-let movieHeading = document.getElementsByClassName("movie_heading")[0];
-
-console.log(movieHeading);
 
 setMovieDetails();
 
 async function setMovieDetails() {
+  let movieDetails;
+  onValue(usersRef, (snapshot) => {
+    if (selectedShowId==selectedShowId){
 
-  try {
-    const response = await fetch("/assets/data/movie_details.json");
-    const data = await response.json();
-
-
-    let movieDetails;
-    data.forEach((show) => {
-      if (show.id == selectedShowId ) {
-        movieDetails = show;
-      }
-    });
-   
-    if (movieDetails) {
-   
-    document.body.innerHTML=  
-    `
-     <header>
-
+    
+    if (snapshot.exists()) {
+      movieDetails = snapshot.val();
+      console.log(movieDetails);
+      // Get the data as an object
+      //    Log the data or process it as needed
+      document.body.innerHTML = `
+    <section class="movieDetails">
+      <header>
+  
      <div class="title">
          <h1>${movieDetails.title}</h1>
-         <p>${movieDetails.RunTime}</p>
+         <p>${movieDetails.RunTime} / ${movieDetails.category}</p>
      </div>
-   <a href=../../../theaters.html?id=${movieDetails.id}&moviename=${movieDetails.title} <button type="button" class="View-All-shows">View All shows</button> </a>
+   <a href="../../../theaters.html?id=${movieDetails.movieId}&moviename=${movieDetails.title}"
+    <button type="button" class="View-All-shows">View All shows</button> </a>
      </div>
  </header>
+
  <section>
 
      <div class="movie_trailer">
-         <iframe src="${movieDetails.trailer}"
+         <iframe src="${movieDetails.Trailer}"
              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
              referrerpolicy="strict-origin-when-cross-orign" allowfullscreen></iframe>
      </div>
 
  </section>
 
- <section class="movie-type" >
+ <section class="minfo-container " >
      <div>
-         <div class="movie-det">
-             <h4>Director:</h4>
-             <p>${movieDetails.Director}</p>
+         <div class="info-row">
+             <label>Director:</label>
+             <p class="value">${movieDetails.Director}</p>
          </div class="movie-about">
-         <div class="movie-det">
-             <h4>Rating:</h4>
-             <p>${movieDetails.Rating}</p>
+         <div class="info-row">
+             <label>Rating:</label>
+             <p class="value">${movieDetails.Rating}</p>
          </div>
-         <div class="movie-det">
-             <h4>Languages:</h4>
-             <p>${movieDetails.Languages}</p>
+         <div class="info-row">
+             <label>Languages:</label>
+             <p class="value">${movieDetails.Languages}</p>
          </div>
-         <div class="movie-det">
-             <h4>Release Date:</h4>
-             <p>${movieDetails.ReleaseDate}</p>
+         <div class="info-row">
+             <label>Release Date:</label>
+             <p class="value">${movieDetails.ReleaseDate}</p>
          </div>
-         <div class="movie-det">
-             <h4>Run Time: </h4>
-             <p>${movieDetails.RunTime}</p>
+         <div class="info-row">
+             <label>Run Time: </label>
+             <p class="value">${movieDetails.RunTime}</p>
          </div>
      </div>
  </section>
+ <hr class="hr">
  <Section>
  <div class="Sunopsis">
-     <h2>About </h2>
+     <h2>Synopsis </h2>
      <p>
      ${movieDetails.Sunopsis}
  </p>
  </div>
 </Section class="topcast">
-<h2>Top Cast</h2>
+
  <div class="top-cast">
-    
-     <div class="leade">
+    <h2 class="TopCast">Top Cast</h2>
+    <div class="leadimg">
+     <div class="actor">
 
          <img src="${movieDetails["lead-img"]}"
              alt="${movieDetails.title}">
-         <p>${movieDetails["TopCast-lead"]}</p>
+        <h2 class="actor-name">${movieDetails["TopCast-lead"]}</h2>
      </div>
      
-     <div class="sup">
+     <div class="actor">
          <img src="${movieDetails["sub-img"]}"
              alt="${movieDetails["sub-name"]}">
-         <p>${movieDetails["sub-name"]}</p>
+         <h2 class="actor-name">${movieDetails["sub-name"]}</h2>
+     </div>
      </div>
  </div>
-
-`
+</Section>
+`;
    }
-    else {
-      movieHeading.textContent = "No such movie"
+   else {
+    //   movieHeading.textContent = "No such movie"
       console.error(window.location.href="../../../error.html");
     }
-  } 
-  catch (error) {
-    console.error("Error fetching movie details:", error);
-  }
 }
+  });
+}
+
+
+
+
+
