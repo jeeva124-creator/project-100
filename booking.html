@@ -3,44 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
-    <link rel="stylesheet" href="./assets/pages/css/payment.css">
-    <link rel="icon" type="image/x-icon" href="/assets/logo/logo1.png">
+    <title>Payment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/pages/css/payment.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <button class="back-button" onclick="window.history.back();">←</button>
-        <h1 >Enter Payment Details</h1>
-        <p>   </p>
-
+        <a class="back-button" href="/Seat.html">←</a>
+        <div>
+            <h1 style="font-size: 25px;color: white">Cineworld - Payment</h1>
+        </div>
     </header>
 
-    <!-- Payment Form -->
-    <main class="payment-container">
-        <section class="form-section">
-            <form id="paymentForm" autocomplete="on">
-                <!-- Card Details Section -->
-                <div class="form-group">
-                    <label for="cardNumber">Card Number:</label>
-                    <input type="text" id="cardNumber" placeholder="Enter your card number" maxlength="16" required>
-                </div>
-                <div class="form-group">
-                    <label for="expiryDate">Expiry Date:</label>
-                    <input type="month" id="expiryDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="cvv">CVV:</label>
-                    <input type="password" id="cvv" maxlength="3" placeholder="Enter CVV" required>
-                </div>
+    <main>
+        <!-- Booking Summary -->
+        <div class="ticket-summary">
+            <h2>Booking Summary</h2>
+            <p id="selectedSeatsText">Selected Seats: </p>
+            <p id="totalPriceText">Total Price: ₹0</p>
+            <p id="moviename">Moviename:</p>
+        </div>
 
-                <!-- Anchor for Redirection -->
-                <a href="ticket.html" id="continueLink" class="continue-btn">Continue</a>
+        <!-- User Details Form -->
+        <div class="user-details">
+            <h3>User Information</h3>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" />
+                </div>
             </form>
-        </section>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="payment-options">
+            <h3>Choose a Payment Method</h3>
+            <div class="payment-methods">
+                <button class="payment-method" id="creditCardBtn">
+                    <i class="fa fa-credit-card"></i> Credit/Debit Card
+                </button>
+                <button class="payment-method" id="upiBtn">
+                    <i class="fa fa-google-wallet"></i> UPI Payment
+                </button>
+            </div>
+        </div>
+
+        <!-- Payment Confirmation -->
+        <div id="paymentStatus" class="payment-status"></div>
+
+        <!-- Ticket Generation -->
+        <div id="ticketContainer" class="ticket-container" style="display:none;">
+            <h2>Your Ticket</h2>
+            <p id="ticketDetails"></p>
+            <button onclick="downloadTicket()">Download Ticket</button>
+        </div>
     </main>
 
-    <script src="/assets/pages/js/"></script>
+    <script src="/assets/pages/js/payment.js"></script>
 </body>
 </html>

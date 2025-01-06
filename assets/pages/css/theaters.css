@@ -31,8 +31,6 @@
      text-decoration: none;
      text-align: center;
 }
-
-
 .movieName img{
   width: 200px;
   border-radius: 10px;
@@ -42,7 +40,6 @@
   margin-left:50px;
 }
 .movieName p h1 {
-
   text-align: center;
 }
 .show-theaters{
@@ -55,24 +52,22 @@ display: flex;
   justify-content: space-between;
 }
 
-
-
+.showTimings{
+  display: none;
+}
 .show-theaters p{
   color: black;
   text-decoration: none;
 } 
-
 main {
   padding: 20px;
   text-align: center;
 }
-
 .date-selection {
 display: flex;
 }
 #dateContainer{
   display: flex;
-
 
 }
 .dateItems{
@@ -83,8 +78,6 @@ display: flex;
   border-radius:7px ;
   height: 40px;
   margin-top: 5px;
-
-
 }
 
 .date-buttons {
@@ -123,11 +116,12 @@ display: flex;
 
 
 .theater{
-  height: 350px;
+  height: 380px;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
   text-align: center;
   justify-content: space-between;
   padding: 30px;
+  margin: 20px;
 }
 .theater:hover{
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
