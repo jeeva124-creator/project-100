@@ -53,7 +53,7 @@ function processPayment(paymentMethod) {
         generateTicket(name, email, phone);  
        
 
-    }, 6000);
+    }, 3000);
 }
 
 // Function to generate the ticket
@@ -64,8 +64,8 @@ function generateTicket(name, email, phone) {
     // Retrieve selected seats and total price from localStorage
     const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
     const totalPrice = localStorage.getItem('totalPrice') || 0;
-console.log(totalPrice);
-console.log(selectedSeats);
+  console.log(totalPrice);
+  console.log(selectedSeats);
 
 
     // Format ticket details
