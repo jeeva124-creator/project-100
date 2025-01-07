@@ -49,7 +49,8 @@ onValue(usersRef, (snapshot) => {
           <img src="${show["movieImg"]}" alt="${show.title}">
           <h3>${show.title}</h3> 
           <p>${show.category}</p>
-          <a href="./../../../movie_details.html?movieId=${index}" class="bookTicketButton">Book Ticket</a>`;
+          <a href="./../../../movie_details.html?movieId=${index}" class="bookTicketButton">Book Ticket</a>
+          <p id="error"></p>`;
 
       head.append(div);
       return {
@@ -68,20 +69,46 @@ searchBar.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
 
   let isAnyMovieVisible = false;
+  const error = document.querySelector('.error'); 
+
+ 
+  document.getElementById("carouselExample").style.display = "none";
 
   movies.forEach((movie) => {
     const isVisible = movie.name.toLowerCase().includes(value);
+    
     movie.element.style.display = isVisible ? "block" : "none";
-    document.getElementById("carouselExample").style.display="none";
-    if (searchBar==""){
-      window.location.reload
-      document.getElementById("carouselExample").style.display="black";
+    
+    if (searchBar.value === "") {
+     
+      window.location.reload();
+      document.getElementById("carouselExample").style.display = "block";
     }
+
     if (isVisible) {
       isAnyMovieVisible = true;
     }
-    else{
-      
-    }
   });
+
+  if (!isAnyMovieVisible) {
+   
+    if (!error) {
+      
+      const errorElement = document.createElement('div');
+      errorElement.classList.add('error');
+      errorElement.innerHTML = "Movie not found";
+      document.body.appendChild(errorElement);
+    } else {
+     
+      error.style.display = "block";
+    }
+  } else {
+    // Hide error message if movies are found
+    if (error) {
+      error.style.display = "none";
+    }
+  }
 });
+
+
+// console.log(movie)

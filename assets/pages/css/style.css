@@ -84,13 +84,13 @@ nav ul li a {
 .not-found-message{
   text-align: center;
   color: #ff0000;
+  display: none;
 
 }
 .search-input {
   width: 500px;
   padding: 7px;
   border-radius: 8px;
-  
   margin-top: 10px;
 }
 .search-input:focus {

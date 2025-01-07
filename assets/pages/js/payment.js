@@ -26,6 +26,9 @@ document.getElementById('upiBtn').addEventListener('click', function () {
   
 });
 
+let Name=document.getElementById("name")
+let email=document.getElementById("email")
+
 // Function to simulate payment process
 function processPayment(paymentMethod) {
     const paymentStatus = document.getElementById('paymentStatus');
@@ -34,7 +37,11 @@ function processPayment(paymentMethod) {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
-    
+   
+    if (name.value!==Number && name.value>3 ){
+                   
+    }
+
     if (!name || !email || !phone) {
         alert("Please fill out all the fields.");
         return;
