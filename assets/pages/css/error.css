@@ -10,7 +10,7 @@ body {
     text-align: center;
     letter-spacing: 5px;
     background: -webkit-linear-gradient(#FF2525, #FFE53B);
-    -webkit-background-clip: text;
+    /* -webkit-background-clip: text; */
     -webkit-text-fill-color: transparent;
     margin-bottom: 0px;
     padding-bottom: 0px;

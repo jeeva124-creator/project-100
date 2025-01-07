@@ -45,14 +45,16 @@ async function fetchMovieDetails() {
 
   if (snapshot.exists()) {
     const movieData = snapshot.val();
+
     console.log("Movie Data:", movieData);
-    // Update movie details in the DOM
+   
     moviename.innerHTML = `
      <img src="${movieData.movieImg}" alt="${movieData.title}" />
       <h1>${movieData.title}</h1>
       <p> ${movieData.Languages}</p>
-     
     `;
+    localStorage.setItem('title',JSON.stringify(movieData.title))
+
   } else {
     console.log("No movie found with the given ID.");
   }
@@ -82,14 +84,15 @@ fetch("/assets/data/theatre.json")
         <img src="${theater.img}" alt="${theater.theatername}">
         <h2>${theater.theatername}</h2>
         <div class= "showTimings">
-         <a href="../../../Seat.html?id=${
+         <a  class="time4" href="../../../Seat.html?id=${
           theater.id}&theatername=${encodeURIComponent(theater.theatername)}&showTiming=04">04:00 pm</a>
-          <a href="../../../Seat.html?id=${
+          <a class="time7" href="../../../Seat.html?id=${
           theater.id}&theatername=${encodeURIComponent(theater.theatername)}&showTiming=07">07:00 pm</a>
         </div>
       `;
 
       head.append(div);
+    
     });
   })
   
@@ -124,7 +127,6 @@ fetch("/assets/data/theatre.json")
   }
   document.querySelector("#dateContainer").append(newContainer)
  }
- 
  getDates()
 
 // listerer for dateActive
@@ -133,16 +135,16 @@ document.querySelectorAll(".dateItems").forEach((element)=>{
   element.addEventListener("click",()=>{
     let activeElement = document.querySelector(".dateActive");
     if(activeElement){
+       
       activeElement.classList.remove("dateActive")
       element.classList.add("dateActive");
+    
     }
     else{
       element.classList.add("dateActive");
+document.querySelectorAll(".showTimings").forEach((element)=>element.style.display="flex");
+
     }
   })
 })
 
-
-
-
-// urlParams

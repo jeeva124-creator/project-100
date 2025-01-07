@@ -62,7 +62,6 @@ onValue(usersRef, (snapshot) => {
 
   }
 });
-
 // function for the search functionality
 
 searchBar.addEventListener("input", (e) => {

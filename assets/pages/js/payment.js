@@ -1,58 +1,101 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("Document loaded and ready!");
-    const selectedMovie = JSON.parse(localStorage.getItem('selectedMovie'));
-    const { title: movieName, selectedTheatre: theatreName, selectedDate, selectedShowtime } = selectedMovie;
-    console.log(selectedDate)
+// Retrieve selected seats and total price from localStorage
+const movie =localStorage.getItem('title')
+window.onload = () => {
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+    const totalPrice = localStorage.getItem('totalPrice') || 0;
+  
+    const selectedSeatsText = document.getElementById('selectedSeatsText');
+    const totalPriceText = document.getElementById('totalPriceText');
+    const moviename=document.getElementById("moviename")
 
-    const selectedseat = JSON.parse(localStorage.getItem('clickedSeatsDetails')) || []; 
-    // const seat = selectedseat.map(item => item.seats);
-    console.log(selectedseat.join(", "))
-    
+    selectedSeatsText.textContent = `Selected Seats: ${selectedSeats.join(', ')}`;
+    totalPriceText.textContent = `Total Price: ₹${totalPrice}`;
+    moviename.textContent=`Moviename:${movie}`
+};
+console.log();
 
-    // console.log(seat[0])
-    // const seatsfordebug=seat[0];
-    // console.log("fordebug :  "+seatsfordebug)
-
-
-
-    // Selecting form inputs
-    const cardNumberInput = document.getElementById('cardNumber');
-    const expiryDateInput = document.getElementById('expiryDate');
-    const cvvInput = document.getElementById('cvv');
-    const continueLink = document.getElementById('continueLink');
-
-    // Fetch URL parameters (if any)
-    const params = new URLSearchParams(window.location.search);
-    const totalPrice = params.get('price') || '0';
-    // const movieName = params.get('movieName');
-    const theatre = params.get('theatre');
-    const showTime = params.get('showTime');
-    const seats = params.get('seats');
-
-    console.log('Initial Parameters:', { totalPrice, movieName, theatre, selectedShowtime, seats });
-
-    // Validate inputs before enabling the continue link
-    const validateInputs = () => {
-        const cardNumber = cardNumberInput.value.trim();
-        const expiryDate = expiryDateInput.value;
-        const cvv = cvvInput.value.trim();
-
-        const isCardValid = /^\d{16}$/.test(cardNumber); // Card number validation
-        const isExpiryValid = expiryDate && new Date(expiryDate) > new Date(); // Expiry date validation
-        const isCvvValid = /^\d{3}$/.test(cvv); // CVV validation
-
-        console.log('Card Valid:', isCardValid, 'Expiry Valid:', isExpiryValid, 'CVV Valid:', isCvvValid);
-
-        // Enable or disable continue link based on validation
-        continueLink.style.pointerEvents = isCardValid && isExpiryValid && isCvvValid ? 'auto' : 'none';
-        continueLink.style.opacity = isCardValid && isExpiryValid && isCvvValid ? '1' : '0.6';
-    };
-
-    cardNumberInput.addEventListener('input', validateInputs);
-    expiryDateInput.addEventListener('input', validateInputs);
-    cvvInput.addEventListener('input', validateInputs);
-
-    
-    validateInputs();
+// Handle the "Credit/Debit Card" payment option
+document.getElementById('creditCardBtn').addEventListener('click', function () {
+    processPayment("Credit/Debit Card");
+  
 });
-// console.log(localStoragd
+
+// Handle the "UPI Payment" option
+document.getElementById('upiBtn').addEventListener('click', function () {
+    processPayment("UPI");
+  
+});
+
+// Function to simulate payment process
+function processPayment(paymentMethod) {
+    const paymentStatus = document.getElementById('paymentStatus');
+    
+    // Get user input values
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    
+    if (!name || !email || !phone) {
+        alert("Please fill out all the fields.");
+        return;
+    }
+
+    // Simulate a payment process
+    paymentStatus.style.display = 'block';
+    paymentStatus.textContent = `Processing your payment via ${paymentMethod}...`;
+
+
+    // Simulate a success message (you can integrate actual payment gateways here)
+    setTimeout(() => {
+        paymentStatus.textContent = `Payment Successful! Thank you for booking your tickets, ${name}.`;
+
+        // After payment, generate the ticket
+        generateTicket(name, email, phone);  
+       
+
+    }, 3000);
+}
+
+// Function to generate the ticket
+function generateTicket(name, email, phone) {
+    const ticketContainer = document.getElementById('ticketContainer');
+    const ticketDetails = document.getElementById('ticketDetails');
+
+    // Retrieve selected seats and total price from localStorage
+    const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+    const totalPrice = localStorage.getItem('totalPrice') || 0;
+  console.log(totalPrice);
+  console.log(selectedSeats);
+
+
+    // Format ticket details
+    ticketDetails.innerHTML = `
+        <strong>Name:</strong> ${name}<br>
+        <strong>Email:</strong> ${email}<br>a
+        <strong>Phone:</strong> ${phone}<br>
+          <strong>moviename:</strong> ${movie}<br>
+        <strong>Seats:</strong> ${selectedSeats.join(', ')}<br>
+        <strong>Total Price:</strong> ₹${totalPrice}
+    `;
+
+    // Show the ticket container
+    ticketContainer.style.display = 'block';
+}
+
+
+function downloadTicket() {
+    const ticketDetails = document.getElementById('ticketDetails').innerText;
+    
+    // Create a Blob with the ticket content
+    const blob = new Blob([ticketDetails], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+   
+    // Create a link and trigger download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ticket.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+}

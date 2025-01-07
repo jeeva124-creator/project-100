@@ -217,11 +217,39 @@ margin-left: 220PX;
 .hide{
   visibility: hidden;
 }
-
-
 .row{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+}
+/* Add styles for selected seats */
+ .column.selected {
+  background-color: #4CAF50; /* Green for selected seats */
+  color: white;
+  cursor: pointer;
+}
+
+.column.sold {
+  background-color: #F44336; /* Red for sold seats */
+  cursor: not-allowed;
+}
+
+.column {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  text-align: center;
+  line-height: 40px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
 }

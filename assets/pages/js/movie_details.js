@@ -117,6 +117,25 @@ async function setMovieDetails() {
  </div>
 </Section>
 `;
+
+// Select all elements with the class name 'actor-name'
+const actors = document.getElementsByClassName("actor-name");
+
+// Convert the HTMLCollection to an array
+const actorsArray = Array.from(actors);
+
+// Iterate over each actor element
+actorsArray.forEach(actor => {
+    // Add a click event listener to each actor element
+    actor.addEventListener("click", () => {
+        // Construct the search query by replacing spaces with '+'
+        const query = actor.innerText.split(" ").join("+");
+        // Open the Google search in a new tab
+        window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    });
+});
+
+ 
    }
    else {
     //   movieHeading.textContent = "No such movie"
