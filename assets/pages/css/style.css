@@ -81,12 +81,16 @@ nav ul li a {
   cursor: pointer;
   font-weight: bold;
 }
+.not-found-message{
+  text-align: center;
+  color: #ff0000;
 
+}
 .search-input {
   width: 500px;
   padding: 7px;
   border-radius: 8px;
-  border: none;
+  
   margin-top: 10px;
 }
 .search-input:focus {

@@ -80,5 +80,8 @@ searchBar.addEventListener("input", (e) => {
     if (isVisible) {
       isAnyMovieVisible = true;
     }
+    else{
+      
+    }
   });
 });
