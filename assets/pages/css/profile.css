@@ -1,0 +1,167 @@
+/* General Reset */
+body, h1, h2, p, ul, li, a, input, button, textarea {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    padding: 1rem 2rem;
+    color: white;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a.active {
+    text-decoration: underline;
+    color: #ff0000;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #000;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: #ff0000;
+    color: white;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+}
+
+.main-content h1 {
+    font-size: 2rem;
+    color: #ff0000;
+    margin-bottom: 1rem;
+}
+
+.main-content p {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Profile Section */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info label {
+    font-weight: bold;
+    color: #000;
+}
+
+.profile-info span {
+    color: #555;
+    margin-left: 0.5rem;
+}
+
+/* Bookings Section */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.booking-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.booking-card h2 {
+    font-size: 1.5rem;
+    color: #ff0000;
+    margin-bottom: 0.5rem;
+}
+
+.booking-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Buttons */
+.btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #cc0000;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #000;
+    color: white;
+    margin-top: 2rem;
+}

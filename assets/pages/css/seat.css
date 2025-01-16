@@ -244,12 +244,19 @@ margin-left: 220PX;
   background-color: #f0f0f0;
   cursor: pointer;
 }
-
 .hide {
   display: none;
 }
-
 .row {
   display: flex;
   justify-content: center;
+}
+.bookedseat{
+  cursor: not-allowed;
+  background-color:gray;
+  color: white;
+}
+.bookedseat:hover{
+  background-color: gray;
+  color: white;
 }

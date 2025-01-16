@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/pages/css/payment.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init({
+                publicKey: "3Hd_ekhPnP-jId24T",
+            });
+        })();
+    </script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -16,13 +27,26 @@
         </div>
     </header>
 
+
+
     <main>
+
+        <div id="paymentStatus" class="payment-status"></div>
+        <!-- Ticket Generation -->
+        <div id="ticketContainer" class="ticket-container" style="display:none;">
+            <h2>Your Ticket</h2>
+            <p id="ticketDetails"></p>
+            <button onclick="downloadTicket()">Download Ticket</button>
+        </div>
         <!-- Booking Summary -->
         <div class="ticket-summary">
             <h2>Booking Summary</h2>
             <p id="selectedSeatsText">Selected Seats: </p>
             <p id="totalPriceText">Total Price: ₹0</p>
             <p id="moviename">Moviename:</p>
+            <p id="showtimes">Show Time:</p>
+           
+            <p id="theatername">Theater Name:</p>
         </div>
 
         <!-- User Details Form -->
@@ -33,13 +57,10 @@
                     <label for="name">Full Name:</label>
                     <input type="text" id="name" name="name" required placeholder="Enter your full name" />
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address:</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email" />
-                </div>
+           
                 <div class="form-group">
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" />
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
                 </div>
             </form>
         </div>
@@ -58,16 +79,14 @@
         </div>
 
         <!-- Payment Confirmation -->
-        <div id="paymentStatus" class="payment-status"></div>
 
-        <!-- Ticket Generation -->
-        <div id="ticketContainer" class="ticket-container" style="display:none;">
-            <h2>Your Ticket</h2>
-            <p id="ticketDetails"></p>
-            <button onclick="downloadTicket()">Download Ticket</button>
-        </div>
+        
     </main>
 
-    <script src="/assets/pages/js/payment.js"></script>
+    <div class="ticket">
+    </div>
+
+    <script src="/assets/pages/js/payment.js" type="module"></script>
 </body>
+
 </html>

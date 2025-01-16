@@ -76,31 +76,31 @@
         const db = getDatabase(app);
 
         const theatres = {
-            "BSR cinepolis": [
+            "PVR: Palazzo,The Nexus Vijaya Mall": [
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
+                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
                 "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
-                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
-                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
-                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
-                "X X X X X X _ X X X X X X X X X X X X _ _ X X X X X X X",
                 "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
                 "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
                 "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
                 "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
                 "_ _ _ _ X X _ X X X X X X X X X X X X _ _ X X X X X X X X",
             ],
-            "PVR": [
-                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X _ _ _ _ _ _",
-                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X_ _ _ _ _ _ ",
+            "Cinepolis: BSR Mall, OMR, Thoraipakkam": [
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X" ,
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
+                "_ _ _ _ _ _ X X X X X X X X X X X X X X X X X X X X X X X X X X",
             ],
-            "Rohini": [
+            "The Vijay Park Multiplex: Injambakkam ECR 4K Atmos": [
                 "X X X X X X X X X X X X X _ _ _ _ _ _ _ _ X X X X X X X X X X X X",
                 "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
                 "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
@@ -112,7 +112,9 @@
                 "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X",
                 "X X X X X X X X X X X X X_ _ _ _ _ _ _ _X X X X X X X X X X X X X"
             ]
+            
         };
+
 
         // Function to preprocess layout with row-based seat numbering
         const preprocessLayout = (layout) => {
@@ -126,6 +128,8 @@
                 }).join(' ');
             });
         };
+        
+        
 
         // Render the selected layout
         const renderSeatLayout = (layout) => {
@@ -139,10 +143,22 @@
                 seatLayoutContainer.appendChild(rowElement);
             });
         };
+        function changeToJSon(data) {
+    return data.map(row => {
+        let seats = row.split(" ");
+        return seats.map(seat => {
+            return { [seat]: false }; 
+        });
+    });
+}
 
         // Save seat layout to Firebase
         const saveSeatLayoutToFirebase = async (theatre, layout) => {
             const processedLayout = preprocessLayout(layout);
+            console.log(processedLayout);
+            
+          
+            
             const seatRef = ref(db, `theatres/${theatre}/seats`);
             try {
                 await set(seatRef, processedLayout);

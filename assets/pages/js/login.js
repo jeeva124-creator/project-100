@@ -18,6 +18,7 @@ const firebaseConfig = {
   appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
   measurementId: "G-ZK48NYGYDP",
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -28,8 +29,9 @@ const form = document.querySelector("form");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const confirmPasswordError = document.getElementById("confirmpasswordError");
-let logeout=document.getElementById("logeout-btn") 
-console.log(logeout)
+
+
+
 
 form.addEventListener("submit", (event) => hanleLogin(event));
 
@@ -56,12 +58,12 @@ function hanleLogin(event) {
 
   signInWithEmailAndPassword(auth, email, password,)
     .then((userCredential) => {
-      document.getElementById("logout-btn").style.display="none";
+    
 
       alert("Login successful!");
       // checkLoggedIn(true)
       localStorage.setItem("loggedInAccount",email)
-      window.location.href = "../../../index.html";
+      window.location.href = "/index.html";
       
 
       // Redirect upon success
@@ -71,7 +73,7 @@ function hanleLogin(event) {
       confirmPasswordError.innerText = "Email or Password Incorret"
       error.message;
       console.log(error);
-      success=false
+     
     });
 }
 

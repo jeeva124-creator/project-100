@@ -1,108 +1,103 @@
-// Import the necessary functions from Firebase SDKs
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
 
 
-// Firebase configuration
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+
+
+import { getAuth, onAuthStateChanged, signOut ,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
     authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
+    databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
     projectId: "movie-ticket-booking-a713e",
     storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
     messagingSenderId: "791048807463",
     appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
-    measurementId: "G-ZK48NYGYDP"
-};
-// Initialize Firebase//
+    measurementId: "G-ZK48NYGYDP",
+  };
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
+const auth = getAuth();
+const db = getDatabase(app);
 
-// Select form elements//
-const form = document.getElementById("form");
-const nameInput = document.getElementById("name");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const errorName = document.getElementById("errorName");
-const errorEmail = document.getElementById("errorEmail");
-const errorPassword = document.getElementById("errorPassword");
 
-// Helper function to reset error messages//
-function clearErrors() {
-    errorName.textContent = "";
-    errorEmail.textContent = "";
-    errorPassword.textContent = "";
+// Listen for authentication state changes
+
+function addUser (email,userName){
+  const sanitizedEmail = email.replace('.', ',');
+  set(ref(db, 'users/' + sanitizedEmail), userName)  
+  .then(() => {
+      console.log("User name add  successfully!");
+      window.location.href = "/index.html";
+
+  })
+  .catch((error) => {
+      console.error("Error saving movie:", error);
+  });
+
 }
-
-// Regular expressions for validation//
-const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{4,15}$/; 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; 
-form.addEventListener("submit", (event) => hanleLogin(event));
-
-// Function to validate form fields//
-function validateForm() {
-    clearErrors();
-    let isValid = true;
-
-    // Username validation//
-    if (!usernameRegex.test(nameInput.value)) {
-        errorName.textContent = "Username must be 5-15 characters long, containing only letters and numbers, with at least one letter and one number.";
-        isValid = false;
-    }
-     else if (nameInput.value.length < 3 || nameInput.value.length > 12) {
-        errorName.textContent = "Name must be between 3 and 12 characters.";
-        isValid = false;
-    }
-
-    // Email validation//
-    if (!emailRegex.test(emailInput.value)) {
-        errorEmail.textContent = "Please enter a valid email address.";
-        isValid = false;
-    }
-
-    // Password validation/
-    if (!passwordRegex.test(passwordInput.value)) {
-        errorPassword.textContent = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.";
-        isValid = false;
-    }
-
-    return isValid;
-}
-
-
-function remocelogianbtn() {
+// Logout functionality
+let nameInput =document.getElementById("name")
+let emailInput =document.getElementById("email")
+let passwordInput =document.getElementById("password")
+document.addEventListener("DOMContentLoaded",(e)=>{
    
-}
 
-function removloginbtl() {
-   
-}
-const username=document.getElementById("loggedInUser")
-// Form submission event listener//
-form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (!validateForm()) return;
 
-    remocelogianbtn();
-    localStorage.setItem("username",nameInput)
-    const email = emailInput.value;
-    const password = passwordInput.value;
-
-    // Firebase function to create a new user//
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-        
-            window.location.href = "/index.html"; 
-            removloginbtl(); 
-            localStorage.setItem("username",username)
-            localStorage.setItem('username', 'loggedInUser');
-            console.log(username)
-            console.log(userCredential);
-            
-        })
-        .catch((error) => {
-            alert(`Error: ${error.message}`);
+      // Signup functionality
+      const form = document.getElementById("form");
+      if (form) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+      
+          if (!validateForm()) return;
+      
+          const username = nameInput.value;
+          const email = emailInput.value;
+          const password = passwordInput.value;
+      
+          localStorage.setItem("userName", username);
+      
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              console.log("User created:", userCredential);
+           addUser(email,username)
+            })
+            .catch((error) => {
+              console.error("Signup error:", error.message);
+              alert(`Error: ${error.message}`);
+            });
         });
-});
+      }
+})
+
+// Validation function
+function validateForm() {
+  clearErrors();
+  let isValid = true;
+
+  const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{4,15}$/;
+  if (!usernameRegex.test(nameInput.value)) {
+    errorName.textContent = "Username must be 5-15 characters, include letters and numbers.";
+    isValid = false;
+  }
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(emailInput.value)) {
+    errorEmail.textContent = "Please enter a valid email address.";
+    isValid = false;
+  }
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  if (!passwordRegex.test(passwordInput.value)) {
+    errorPassword.textContent = "Password must include 8 characters, uppercase, lowercase, and a number.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+function clearErrors() {
+  errorName.textContent = "";
+  errorEmail.textContent = "";
+  errorPassword.textContent = "";
+}

@@ -38,11 +38,11 @@ form.addEventListener("submit", (e) => {
         .catch((error) => {
             console.error("Error saving movie:", error);
         });
-        document.querySelector(".alert").style.display="black"
+        document.querySelector(".alert").style.display="block"
   setTimeout(()=>{
             document.querySelector(".alert").style.display="none"
   },3000)
-
         document.getElementById("addMovieForm").reset();
-
 });
+
+

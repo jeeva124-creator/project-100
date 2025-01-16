@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theater_adimin- Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="module" src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" defer></script>
+    <script type="module" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+   <script type="module" src="/assets/pages/js/theater_adimin.js" defer></script>
+   <link rel="stylesheet" href="/assets/pages/css/theater_adimin.css" >
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .img-preview {
+            width: 100px;
+            height: 150px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+    .alert{
+    text-align: center;
+    background-color: rgb(1, 255, 73);
+    width: 100%;
+    display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">the Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="" >Manage Movies<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="">Add Movie </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- movie name 
+theatre name 
+theater_lovation
+time 
+date -->
+
+
+
+ 
+    <div class="container">
+        <h2>CineWorld</h2>
+        <form id="addMovieForm" enctype="multipart/form-data">
+            <div id="movieContainer">
+                <div class="movie-entry">
+                    <div class="form-group">
+                        <label for="movieName">Movie Name</label>
+                        <input type="text" class="form-control" name="movieName[]" required placeholder="Enter Movie Name">
+                    </div>
+                    <div id="theaterContainer-0" class="theater-container">
+                        <div class="theater-entry">
+                            <div class="form-group">
+                                <label for="theaterName">Theater Name</label>
+                                <input type="text" class="form-control" name="theaterName-0[]" required placeholder="Enter Theater Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="theaterLocation">Theater Location</label>
+                                <input type="text" class="form-control" name="theaterLocation-0[]" required placeholder="Enter Theater Location">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time</label>
+                                <div id="timeFields-0">
+                                    <input type="time" class="form-control" name="time-0[]" required>
+                                </div>
+                                <button type="button" class="btn btn-secondary add-time-btn" data-index="0">Add More Times</button>
+                            </div>
+                            <button type="button" class="btn btn-danger remove-theater">Remove Theater</button>
+                            <hr>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary addTheaterButton" data-movie-index="0">Add Another Theater</button>
+                    <hr>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="addMovieButton">Add Another Movie</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <p class="alert">Data Added Successfully</p>
+        </form> 
+    </div>
+
+
+</body>
+
+</html>

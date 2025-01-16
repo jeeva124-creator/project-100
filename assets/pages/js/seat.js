@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 let queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const selectedtheater = urlParams.get("theatername");
+const selectedtheater = localStorage.getItem("theaterName");
 console.log(selectedtheater);
 
 // Initialize Firebase
@@ -29,9 +29,11 @@ let selectedSeats = [];
 let totalPrice = 0;
 const SEAT_PRICE = 190;
 
-// Function to toggle seat selection
+
 function toggleSeatSelection(seatElement) {
-  // Check if the seat is already selected
+if (seatElement.classList.contains('bookedseat')){
+return
+}
   if (seatElement.classList.contains('selected')) {
     // Deselect the seat
     seatElement.classList.remove('selected');
@@ -45,8 +47,6 @@ function toggleSeatSelection(seatElement) {
     selectedSeats.push(seatElement.textContent);
     totalPrice += SEAT_PRICE;
   }
-
-
   updateTicketSummary();
 }
 
@@ -63,36 +63,59 @@ function updateTicketSummary() {
 }
 
 // Function to handle seat rendering
-function renderLayout(dataObj) {
+function renderLayout(dataObj,bookedSeats) {
   seatContainer.innerHTML = ''; // Clear any previous seat layout
-
+  console.log(dataObj);
+ 
+  
   dataObj.forEach((rowData, rowIndex) => {
     let container = document.createElement("div");
     container.classList.add("row");
-    let innerArr = rowData.split(" ");
-    
-    innerArr.forEach((seat, seatIndex) => {
-      let newBox = document.createElement("p");
-
-      if (seat === "_" || seat === "x" || seat === "") {
-        newBox.classList.add("hide");
-        newBox.textContent = seat;
-      } else {
-        newBox.classList.add("column");
+    rowData=rowData.split(" ")
+  
+      
+      
+      rowData.forEach((seat) => {
+        const seatLabel = String.fromCharCode(65 + rowIndex) + (seat);
+        let isBooked;
+        console.log(seatLabel);
+        console.log(bookedSeats);
         
-        // Generate seat labels like A1, A2, A3, etc.
-        const seatLabel = String.fromCharCode(65 + rowIndex) + (seatIndex + 1);
-        newBox.textContent = seatLabel;
+        
+        if (!Array.isArray(bookedSeats)) {
+          isBooked=false;
+        }
+        else{
+          isBooked=bookedSeats.includes(seatLabel);
+        }
+  
 
-        // Add event listener for seat selection
-        newBox.addEventListener('click', function () {
-          if (!newBox.classList.contains('sold')) {
-            toggleSeatSelection(newBox);
-          }
-        });
-      }
+     let newBox = document.createElement("p");
 
-      container.appendChild(newBox);
+     if (seat === "_" || seat === "x" || seat === "") {
+       newBox.classList.add("hide");
+       newBox.textContent = seat;
+     } else {
+       newBox.classList.add("column");
+       if (isBooked){
+        console.log(seatLabel);
+        
+        newBox.classList.add("bookedseat");
+       }
+       // Generate seat labels like A1, A2, A3, etc.
+       newBox.textContent = seatLabel;
+
+       // Add event listener for seat selection
+       newBox.addEventListener('click', function () {
+         if (!newBox.classList.contains('sold')) {
+           toggleSeatSelection(newBox);
+         }
+       });
+     }
+
+     container.appendChild(newBox);
+     
+   
     });
     seatContainer.appendChild(container);
   });
@@ -101,12 +124,21 @@ function renderLayout(dataObj) {
 // Fetch seat layout from Firebase and render
 async function getLayout() {
   try {
+
+   
+    
     const getref = ref(db, `theatres/${selectedtheater}/seats`);
     const response = await get(getref);
 
+    const bookedSeatRef=ref(db, `theatres/${selectedtheater}/bookedSeats`);
+    const bookedSeatResponse=await get(bookedSeatRef)
     if (response.exists()) {
       const data = response.val();
-      renderLayout(data);
+      const bookedSeats=bookedSeatResponse.val()
+      console.log(data);
+      
+      renderLayout(data,bookedSeats);
+
     } else {
       console.log("Error: No seat data found");
     }
@@ -125,7 +157,7 @@ document.getElementById('confirmBooking').addEventListener('click', function () 
     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
     localStorage.setItem('totalPrice', totalPrice);
 
-    alert(`Booking Confirmed for seats: ${selectedSeats.join(", ")}. Total: ₹${totalPrice}`);
+  
     
     // Optionally, navigate to another page or trigger payment
     // window.location.href = 'confirmationPage.html';
@@ -133,3 +165,6 @@ document.getElementById('confirmBooking').addEventListener('click', function () 
     alert("No seats selected!");
   }
 });
+
+
+

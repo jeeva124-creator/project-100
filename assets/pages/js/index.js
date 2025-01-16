@@ -1,6 +1,7 @@
 
 //   <!-- Firebase App -->
 
+import { getAuth, onAuthStateChanged, signOut ,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import {
   getDatabase,
@@ -20,9 +21,11 @@ const firebaseConfig = {
   measurementId: "G-ZK48NYGYDP",
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth();
 
 const usersRef = ref(db, "/movies");
 
@@ -31,6 +34,58 @@ const head = document.querySelector(".movies-flux");
 
 let movies = [];
 
+let offcanvasSidebar; 
+let loginButton=document.getElementById("loginButton")
+offcanvasSidebar = document.querySelector("#offcanvasRight");
+onAuthStateChanged(auth, (user) => {
+   if (user) {
+     updateUI(user);
+   } else {
+     updateUI(null);
+   }
+ });
+  let logout=document.querySelector(".logout-btn")
+  // Function to update UI based on user state
+function updateUI(user) {
+  if (user) {
+    let email=user.email
+    console.log(email)
+    const sanitizedEmail = email.replace('.', ',');
+    const emailRef = ref(db, `/users/${sanitizedEmail}`);
+    onValue(emailRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        console.log(data);
+        let loggedInUserName=document.querySelector(".loggedInUserName")
+        loggedInUserName.textContent=data
+      }
+    });
+   
+    
+
+  console.log("userlogin");
+    console.log(loginButton);
+
+    if (loginButton) {
+      loginButton.style.display = "none";
+      logout.style.display = "block";
+
+    }
+
+    if (offcanvasSidebar) {
+      const bootstrapOffcanvas = new bootstrap.Offcanvas(offcanvasSidebar);
+      bootstrapOffcanvas.show();
+    }
+  } else {
+    
+    if (loginButton) {
+      loginButton.style.display = "block";
+      logout.style.display = "none";
+
+
+    }
+  }
+}
 // function to view to list of movies
 
 onValue(usersRef, (snapshot) => {
@@ -93,13 +148,14 @@ searchBar.addEventListener("input", (e) => {
   if (!isAnyMovieVisible) {
    
     if (!error) {
-      
+     let  footer=document.querySelector(".footer")
       const errorElement = document.createElement('div');
       errorElement.classList.add('error');
       errorElement.innerHTML = "Movie not found";
       document.body.appendChild(errorElement);
+      footer.style.display="none"
+
     } else {
-     
       error.style.display = "block";
     }
   } else {
@@ -112,3 +168,11 @@ searchBar.addEventListener("input", (e) => {
 
 
 // console.log(movie)
+
+// Profile page view
+
+let profileIcon = document.querySelector(".user-actions");
+
+profileIcon.addEventListener("click", ()=>{
+    window.location.href = "..../../../../../profile.html";
+})

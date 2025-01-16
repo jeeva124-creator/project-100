@@ -36,13 +36,14 @@ console.log("id : " + selectedShowId);
 const movieName = urlParams.get("moviename");
 console.log("movieName :" + movieName);
 
+
 const moviename = document.querySelector(".movieName");
 
 // Fetch movie data from Firebase
 async function fetchMovieDetails() {
   const movieRef = ref(db, `/movies/${selectedShowId}`);
   const snapshot = await get(movieRef);
-
+   console.log(snapshot)
   if (snapshot.exists()) {
     const movieData = snapshot.val();
 
@@ -53,6 +54,8 @@ async function fetchMovieDetails() {
       <h1>${movieData.title}</h1>
       <p> ${movieData.Languages}</p>
     `;
+   const movieimg=localStorage.setItem("movieimg",movieData.movieImg)
+
     localStorage.setItem('title',JSON.stringify(movieData.title))
 
   } else {
@@ -62,40 +65,81 @@ async function fetchMovieDetails() {
 
 fetchMovieDetails();
 
+
+
+//  fetch the theater in firebase
+async function fetchtheaterDetails(){
+  console.log(movieName);
+  
+const theatre=ref(db,`theatre/${movieName}`)
+
+  const data=await get(theatre);
+let currentTime = new Date().toLocaleTimeString();
+  const container = document.querySelector("#theatresContainer");
+  if (data.exists()) {
+    const theatreData = data.val();
+    console.log(theatreData);
+    for (let theatre in theatreData){
+      console.log(theatre);
+      const div =document.createElement("div")
+      const list = div.classList;
+list.toggle("showdiv");
+      div.innerHTML= `<a class=" theaterName">${theatreData[theatre].theaterName}</a>
+      <div class="timeContainer"></div>
+     
+         <div class="service">
+      <div class="mobil">
+      <img src="/assets/image/check.png" alt="" claas="mobil" >
+ <label for="">M-Ticket</label>
+
+ </div>
+ <div class="food"> 
+   <img src="/assets/image/food (1).png" alt="" class="food">
+      <label for="">Food & Beverage</label>
+     </div >
+
+    </div>
+  ` 
+  console.log(currentTime)
+const timeContainer=div.querySelector(".timeContainer")
+theatreData[theatre].times.forEach(time=>{
+
+  const a = document.createElement("p")
+  a.textContent=time
+  a.classList.add("time")
+  timeContainer.appendChild(a)
+
+  a.addEventListener("click",()=>{
+   let theaterName= div.querySelector(".theaterName").textContent.trim()
+   console.log(theaterName);
+   
+   localStorage.setItem("theaterName",theaterName)
+    localStorage.setItem("movieTime",time)
+    window.location.href="Seat.html"
+    console.log(theaterName);
+
+    
+
+  })
+})
+    
+  container.appendChild(div)
+  
+
+    }
+
+  }
+  else if (currentTime>time ){
+    remove(time)
+  }
+else{
+  console.log("not found")
+}
+
+}
+ fetchtheaterDetails()
 // Other functions like `movieshow` can remain as they are or be further adjusted based on your logic.
 
-
-
-
-const theatersContainer = document.querySelector(".theaters");
-const head = document.querySelector(".show-theaters");
-const dateselection = document.querySelector(".date-selection");
-
-// Fetch theater data
-fetch("/assets/data/theatre.json")
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data)
-    
-    data.forEach((theater) => {
-      const div = document.createElement("div");
-      div.classList.add("theater");
-      div.innerHTML = `
-        <img src="${theater.img}" alt="${theater.theatername}">
-        <h2>${theater.theatername}</h2>
-        <div class= "showTimings">
-         <a  class="time4" href="../../../Seat.html?id=${
-          theater.id}&theatername=${encodeURIComponent(theater.theatername)}&showTiming=04">04:00 pm</a>
-          <a class="time7" href="../../../Seat.html?id=${
-          theater.id}&theatername=${encodeURIComponent(theater.theatername)}&showTiming=07">07:00 pm</a>
-        </div>
-      `;
-
-      head.append(div);
-    
-    });
-  })
-  
  function getDates(){
 
   let dateArr = [];
@@ -111,9 +155,7 @@ fetch("/assets/data/theatre.json")
 
   renderDate(dateArr);
 
-  
  }
-
  function renderDate(arr){
   let newContainer = document.createDocumentFragment();
 

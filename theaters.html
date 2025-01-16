@@ -8,6 +8,7 @@
     <script src="./assets/pages/js/theaters.js" type="module"></script>
     <link rel="stylesheet" href="./assets/pages/css/theaters.css">
   <script src="./assets/pages/js/isloggedIn.js" defer></script>
+  <script src="/assets/pages/js/index.js" type="module" defer></script>
 </head>
 <body>
     
@@ -17,9 +18,9 @@
  
         <div class="user-actions">
           <a href="login.html" id="loginButton"> <button id="loginButton">Login</button></a>
-          <!-- <button id="cart-btn">Cart</button> -->
+          
           <a href="login.html" id=""> <button id="logout-btn">Logout</button></a>
-          <p id="loggedInUser"></p>
+          
         </div>
       </header>
     
@@ -27,9 +28,10 @@
       <div class="container-movie">
         <div class="movieName"></div>
         <div id="dateContainer"></div>
-     
       </div>
-    <div class="show-theaters"> </div>
+    <div  id="theatresContainer"> </div>
 
 </body>
 </html>
+
+

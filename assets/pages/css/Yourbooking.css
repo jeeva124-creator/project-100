@@ -1,0 +1,15 @@
+.arrow{
+    margin: 5px;
+    margin-top: 12px;
+    align-items: center;
+}
+header{
+    background-color: white;
+    color: rgb(244, 77, 77);
+    display: flex;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+header h1{
+margin-left:600px ;
+}

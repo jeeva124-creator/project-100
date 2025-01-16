@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        /* Enhanced Styling for Professional Look */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+            color: #333;
+        }
+
+        .sidebar {
+            background: #2c2c2c;
+            color: #fff;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 15px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 22px;
+            color: #ff4d4d;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            font-size: 16px;
+            color: #ccc;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .sidebar a.active, .sidebar a:hover {
+            background: #ff4d4d;
+            color: #fff;
+        }
+
+        .logout-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .logout-button:hover {
+            background: #e63939;
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 30px;
+        }
+
+        .main-content h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-info div, .booking-card {
+            margin-bottom: 15px;
+        }
+
+        .profile-info label {
+            font-weight: bold;
+            display: inline-block;
+            width: 130px;
+        }
+
+        .profile-info span {
+            font-size: 16px;
+        }
+
+        .bookings-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(45% - 10px);
+            border: 1px solid #b5b2b2;
+            
+        }
+
+        .booking-card h2 {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .booking-card p {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #2c2c2c;
+            color: #fff;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>CineWorld</h2>
+        <a href="#profile" class="active" onclick="showSection('profile')">Profile Details</a>
+        <a href="#bookings" onclick="showSection('bookings')">My Bookings</a>
+        <a href="#settings" onclick="showSection('settings')">Settings</a>
+    </div>
+
+    <button class="logout-button">Logout</button>
+
+    <div class="main-content">
+        <!-- Profile Section -->
+        <div id="profile" class="section">
+            <h1>Profile Details</h1>
+            <div class="profile-info">
+                <div>
+                    <label>Name:</label>
+                    <span>John Doe</span>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <span>johndoe@example.com</span>
+                </div>
+                <div>
+                    <label>Phone Number:</label>
+                    <span>+1234567890</span>
+                </div>
+                <div>
+                    <label>Date of Birth:</label>
+                    <span>01/01/1990</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="bookings" class="section" style="display: none;">
+            <h1>My Bookings</h1>
+            <div class="bookings-list">          
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="section" style="display: none;">
+            <h1>Settings</h1>
+            <p>Manage your account settings here.</p>
+        </div>
+    </div>
+    <script type="module">
+// Firebase and other initialization code stays as it is
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+import { getDatabase, ref, set,get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
+  authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
+  databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
+  projectId: "movie-ticket-booking-a713e",
+  storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
+  messagingSenderId: "791048807463",
+  appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
+  measurementId: "G-ZK48NYGYDP",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+
+
+
+        window.showSection= function (sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.style.display = 'none');
+
+            // Remove active class from all links
+            const links = document.querySelectorAll('.sidebar a');
+            links.forEach(link => link.classList.remove('active'));
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Add active class to the clicked link
+            event.target.classList.add('active');
+        }
+        getBookings()
+
+
+        const bookingContainer=document.querySelector(".bookings-list")
+        async function getBookings() {
+        let userEmail=localStorage.getItem("loggedInAccount").replace(".","_")
+        const theaterTimeRef = ref(db, `orders/${userEmail}`);
+        let data= await get(theaterTimeRef); 
+        let bookedData=data.val()
+        console.log(bookedData);
+        let bookedDataKeys=Object.keys(bookedData)
+        
+        function getDate(){
+            const today = new Date();
+const day = String(today.getDate()).padStart(2, "0");
+const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+const year = today.getFullYear();
+
+const formattedDate = `${day}/${month}/${year}`
+return formattedDate;
+        }
+        
+        bookedDataKeys.forEach((key,index) => {
+                let order=bookedData[key]
+                let div=document.createElement("div")
+                div.classList.add('booking-card')
+                div.innerHTML=`<h2>Booking #${Math.floor(10000 + Math.random() * 90000)+index}</h2>
+                    <p><strong>Movie:</strong><b> ${order.movie.slice(1,-1)}</b></p>
+                    <p><strong>Date:</strong> ${getDate()}</p>
+                    <p><strong>Time:</strong> ${order.timeing}</p>
+                    <p><strong>Seats:</strong>${order.selectedSeats}</p>`
+                bookingContainer.appendChild(div)
+        });
+    }
+
+    </script>
+</body>
+</html>

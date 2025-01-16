@@ -15,22 +15,10 @@
     background-color: white;
     color: red;
   }
-  
   header .logo {
     font-size: 24px;
     font-weight: bold;
   }
-  
-  
-  
-.show-theaters  a img{
-     height: 200px;
-     padding: 20px;
-     width: 300px;
-     border-radius: 20px;
-     text-decoration: none;
-     text-align: center;
-}
 .movieName img{
   width: 200px;
   border-radius: 10px;
@@ -42,11 +30,7 @@
 .movieName p h1 {
   text-align: center;
 }
-.show-theaters{
-display: flex;
- justify-content: space-around;
 
-}
 .container-movie{
   display: flex;
   justify-content: space-between;
@@ -55,10 +39,7 @@ display: flex;
 .showTimings{
   display: none;
 }
-.show-theaters p{
-  color: black;
-  text-decoration: none;
-} 
+
 main {
   padding: 20px;
   text-align: center;
@@ -68,16 +49,18 @@ display: flex;
 }
 #dateContainer{
   display: flex;
-
+  align-items: self-end;
+  margin: 20px;
+  gap: 20px;
 }
 .dateItems{
   gap: 10px;
   border: 1px solid;
-  padding:5px ;
-  margin: 10px;
-  border-radius:7px ;
-  height: 40px;
-  margin-top: 5px;
+  width: 100px;
+  text-align: center;
+  padding: 7px;
+
+
 }
 
 .date-buttons {
@@ -113,40 +96,62 @@ display: flex;
   background-color: rgb(255, 0, 0);
   color: #f8f9fa;
 }
-
-
-.theater{
-  height: 380px;
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-  text-align: center;
-  justify-content: space-between;
-  padding: 30px;
+.show-theaters{
+      width: 500px; 
+    height: 100px;
   margin: 20px;
+  font-size: 18px;
+margin: 50px;
+font: 1000;
 }
-.theater:hover{
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-}
-.theater h2{
-  margin: 20px;
-}
-.theater a  {
-  color: white;
-  background-color: red;
-  border: none;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  text-align: center;
-  text-decoration: none;
-  width: 120px;
-}
-.theater a:hover {
-    color: red;
-    background-color: white;
-    border: 1px solid red;
-  }
+.service{
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 
-.theater img{
-   width: 300px;
-   height: 200px;
+}
+
+.time{
+border: 1px solid  #49ba8e ;
+padding: 10px 20px ;
+border-radius: 4px;
+cursor: pointer;
+color: #49ba8e;
+margin-left: 50px;
+align-items: center;
+text-align: center;
+
+}
+.timeContainer{
+  margin: 20px;
+  display:flex;
+}
+.showdiv{
+ margin-left: 50px;
+ box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;;
+ display: flex;
+ flex-direction: column;
+ margin: 20px;
+ font-weight: 700;
+}
+
+
+.mobil{
+  vertical-align: middle;
+  margin-top: -3px;
+  color: #49ba8e; 
+}
+
+.mobil img{
+  width: 20px;
+}
+
+.food {
+color: #ffa426;
+margin-left: 20px;
+}
+
+.food img{
+  width: 20px;
+  margin: 30x;
 }

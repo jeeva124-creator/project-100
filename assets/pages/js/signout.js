@@ -22,7 +22,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app); // Initialize the auth instance
 
 // Logout button event listener
- let logout=document.getElementById("logout-btn")
+ let logout=document.querySelector(".logout-btn")
  logout.addEventListener("click", function () {
   console.log("Sign-out initiated...");
   alert("Logging out...");

@@ -21,7 +21,7 @@ header {
   align-items: center;
   padding: 10px 20px;
   background-color: white;
-  color: red;
+  color:#eb4e62;
 }
 
 header .logo {
@@ -42,21 +42,38 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: red;
+  color:#eb4e62;
   font-weight: bold;
 }
 
+.order{
+text-decoration: none;
+align-items: center;
+width: 100%;
+color: black;
+}
+.logout-btn{
+  text-decoration: none;
+ color: black;
+
+}
 .user-actions button {
   margin-left: 10px;
   padding: 5px 10px;
   background-color: #ffffff;
   border: 1px solid #ff0000;
-  color: #ff0000;
+  color:#eb4e62;
   cursor: pointer;
   border-radius: 5px;
   font-weight: bold;
 }
+.error{
+  color:#eb4e62;
+  font-size: 25px;
+  text-align: center;
 
+
+}
 .search-bar {
   display: flex;
   padding: 20px;
@@ -74,7 +91,7 @@ nav ul li a {
 
 .search-bar button {
   padding: 10px 20px;
-  background-color: #ff0000;
+  background-color:#eb4e62;
   color: white;
   border: none;
   border-radius: 5px;
@@ -95,10 +112,11 @@ nav ul li a {
 }
 .search-input:focus {
   outline: none;
-  border: 1px solid red;
+  border: 1px solid #eb4e62;
 }
 #carouselExample {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
 }
 #trendingMovies {
   margin: 30px;
@@ -110,34 +128,42 @@ nav ul li a {
   align-items: center;
   margin: 20px;
   flex-wrap: wrap;
-  padding: 30px;
+  padding: 1px;
+
   width: 300px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .movie-container h3 {
   text-align: center;
+  
 }
 .movies-flux {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   margin: 20px;
 }
 .movieName {
   display: inline;
 }
+
 .movie-list a {
   color: black;
   text-decoration: none;
 }
+
 .movie-list {
   margin-left: 30px;
   /* display: flex; */
 }
+
 .logo {
   height: 70px;
   width: 100px;
   margin-left: 30px;
 }
+
 .movies-flux img {
   width: 200px;
   height: auto;
@@ -145,6 +171,7 @@ nav ul li a {
   border-radius: 8px;
   margin-bottom: 15px;
 }
+
 .movie-item h3 {
   margin: 10px 0;
   font-size: 1.5rem;
@@ -153,10 +180,9 @@ nav ul li a {
   font-size: 2rem;
   color: black;
 }
-
 .bookTicketButton {
   color: white;
-  background-color: red;
+  background-color: #eb4e62;
   border: none;
   padding: 10px;
   margin: 10px;
@@ -166,24 +192,24 @@ nav ul li a {
   width: 120px;
 }
 .bookTicketButton:hover {
-  color: red;
+  color: #eb4e62;
   background-color: white;
-  border: 1px solid red;
+  border: 1px solid #eb4e62;
 }
 
 .loginButton {
   height: 100px;
   background-color: black;
   width: 100%;
+  display: none;
 }
-
 h3 {
   color: black !important;
 }
 
 footer {
   background-color: white;
-  color: rgb(240, 11, 11);
+  color: #eb4e62;
   text-align: center;
   padding: 20px;
   margin-top: 20px;
@@ -195,20 +221,14 @@ footer p {
 }
 
 footer .social-media a {
-  color: red;
+  color:#eb4e62;
   margin: 0 10px;
   text-decoration: none;
   font-weight: bold;
 }
-#logout-btn {
-  display: none;
-}
 
-.error {
-  width: 200px;
-  font-size: large;
-  color: black;
-}
+
+
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
