@@ -160,7 +160,8 @@ function processPayment(paymentMethod) {
 
     // Simulate a success message (you can integrate actual payment gateways here)
     setTimeout(() => {
-        paymentStatus.textContent = `Payment Successful! Thank you for booking your tickets, ${name}.`;
+        paymentStatus.innerHTML = `<p>Payment Successful! Thank you for booking your tickets, ${name}.</p>
+        <a href="/index.html">Go to home page</a>`;
         saveBookedSeats()
         // After payment, generate the ticket
         generateTicket(name, phone);  

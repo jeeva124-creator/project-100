@@ -156,13 +156,14 @@ document.getElementById('confirmBooking').addEventListener('click', function () 
     // Store selected seats in local storage after confirmation
     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
     localStorage.setItem('totalPrice', totalPrice);
-
+window.location.href='/booking.html'
   
     
     // Optionally, navigate to another page or trigger payment
     // window.location.href = 'confirmationPage.html';
   } else {
     alert("No seats selected!");
+    return;
   }
 });
 
