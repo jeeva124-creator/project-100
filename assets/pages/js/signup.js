@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded",(e)=>{
           const password = passwordInput.value;
       
           localStorage.setItem("userName", username);
-      
+          localStorage.setItem("loggedInAccount",email)
           createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
               console.log("User created:", userCredential);

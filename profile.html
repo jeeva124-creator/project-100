@@ -148,7 +148,7 @@
         <a href="#settings" onclick="showSection('settings')">Settings</a>
     </div>
 
-    <button class="logout-button">Logout</button>
+    <button class="logout-button" id="logoutBtn">Logout</button>
 
     <div class="main-content">
         <!-- Profile Section -->
@@ -191,6 +191,7 @@
 // Firebase and other initialization code stays as it is
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getDatabase, ref, set,get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, signOut ,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -207,6 +208,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth();
 
 
 
@@ -260,6 +262,21 @@ return formattedDate;
                 bookingContainer.appendChild(div)
         });
     }
+
+
+    document.getElementById('logoutBtn').addEventListener('click',()=>{
+        signOut(auth)
+  .then(() => {
+    // Sign-out successful
+    console.log("User signed out successfully.");
+    localStorage.removeItem('loggedInAccount')
+    window.location.href='index.html'
+  })
+  .catch((error) => {
+    // An error happened
+    console.error("Error signing out: ", error);
+  });
+    })
 
     </script>
 </body>
