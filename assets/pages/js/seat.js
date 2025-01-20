@@ -14,6 +14,15 @@ const firebaseConfig = {
   measurementId: "G-ZK48NYGYDP",
 };
 
+
+let previousbutton=document.querySelector(".back-button")
+
+
+previousbutton.addEventListener("click",()=>{
+
+  window.history.back()
+})
+
 let queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const selectedtheater = localStorage.getItem("theaterName");
@@ -29,19 +38,22 @@ let selectedSeats = [];
 let totalPrice = 0;
 const SEAT_PRICE = 190;
 
-
+let selectis=false
 function toggleSeatSelection(seatElement) {
-if (seatElement.classList.contains('bookedseat')){
+if (seatElement.classList.contains('bookedseat') ){
 return
 }
-  if (seatElement.classList.contains('selected')) {
+  if (seatElement.classList.contains('selected') ) {
     // Deselect the seat
     seatElement.classList.remove('selected');
+    selectis=true
+
     const seatIndex = selectedSeats.indexOf(seatElement.textContent);
-    if (seatIndex > -1) {
+    if (seatIndex > -1 ) {
       selectedSeats.splice(seatIndex, 1);
       totalPrice -= SEAT_PRICE;
     }
+    
   } else {
       seatElement.classList.add('selected');
     selectedSeats.push(seatElement.textContent);
@@ -102,8 +114,7 @@ function renderLayout(dataObj,bookedSeats) {
         
         newBox.classList.add("bookedseat");
        }
-       // Generate seat labels like A1, A2, A3, etc.
-       newBox.textContent = seatLabel;
+          newBox.textContent = seatLabel;
 
        // Add event listener for seat selection
        newBox.addEventListener('click', function () {
@@ -125,8 +136,6 @@ function renderLayout(dataObj,bookedSeats) {
 async function getLayout() {
   try {
 
-   
-    
     const getref = ref(db, `theatres/${selectedtheater}/seats`);
     const response = await get(getref);
 
@@ -151,21 +160,26 @@ async function getLayout() {
 getLayout();
 
 // Handle the confirm booking button click
+
 document.getElementById('confirmBooking').addEventListener('click', function () {
-  if (selectedSeats.length > 0) {
-    // Store selected seats in local storage after confirmation
-    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-    localStorage.setItem('totalPrice', totalPrice);
-window.location.href='/booking.html'
-  
+  if (selectedSeats.length > 0  && selectedSeats.length<10) {
     
-    // Optionally, navigate to another page or trigger payment
-    // window.location.href = 'confirmationPage.html';
-  } else {
-    alert("No seats selected!");
+      
+      localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+      localStorage.setItem('totalPrice', totalPrice);
+  window.location.href='/booking.html'
+  
+  }
+  else if (selectedSeats.length>=10){
+     alert("seats selected less than 10")
+  }
+  
+  else {
+    alert("No seats selected !");
     return;
   }
 });
+
 
 
 

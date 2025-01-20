@@ -67,6 +67,52 @@ fetchMovieDetails();
 
 
 
+function renderDate(arr){
+  let newContainer = document.createDocumentFragment();
+
+  for(let date of arr){
+    let createDiv = document.createElement("div");
+  createDiv.textContent = date;
+  createDiv.classList.add("dateItems")
+  
+  
+       createDiv.querySelector(".dateItems")
+  newContainer.appendChild(createDiv);
+
+
+
+  }
+ document.querySelector("#dateContainer").append(newContainer)
+
+ }
+
+
+ getDates()
+
+// listerer for dateActive
+let activeis=false
+document.querySelectorAll(".dateItems").forEach((element)=>{
+  element.addEventListener("click",()=>{
+    let activeElement = document.querySelector(".dateActive");
+    if(activeElement){
+       
+      activeElement.classList.remove("dateActive")
+      element.classList.add("dateActive");
+      activeis=true
+      console.log(element);
+      
+      localStorage.setItem("selectDate",element.innerHTML)
+
+    }
+    else{
+      element.classList.add("dateActive");
+document.querySelectorAll(".showTimings").forEach((element)=>element.style.display="flex");
+
+    }
+  })
+})
+
+
 //  fetch the theater in firebase
 async function fetchtheaterDetails(){
   console.log(movieName);
@@ -74,7 +120,7 @@ async function fetchtheaterDetails(){
 const theatre=ref(db,`theatre/${movieName}`)
 
   const data=await get(theatre);
-let currentTime = new Date().toLocaleTimeString();
+// let currentTime = new Date().toLocaleTimeString();
   const container = document.querySelector("#theatresContainer");
   if (data.exists()) {
     const theatreData = data.val();
@@ -83,7 +129,7 @@ let currentTime = new Date().toLocaleTimeString();
       console.log(theatre);
       const div =document.createElement("div")
       const list = div.classList;
-list.toggle("showdiv");
+  list.toggle("showdiv");
       div.innerHTML= `<a class=" theaterName">${theatreData[theatre].theaterName}</a>
       <div class="timeContainer"></div>
      
@@ -100,7 +146,7 @@ list.toggle("showdiv");
 
     </div>
   ` 
-  console.log(currentTime)
+
 const timeContainer=div.querySelector(".timeContainer")
 theatreData[theatre].times.forEach(time=>{
 
@@ -112,31 +158,26 @@ theatreData[theatre].times.forEach(time=>{
   a.addEventListener("click",()=>{
    let theaterName= div.querySelector(".theaterName").textContent.trim()
    console.log(theaterName);
-   
+
    localStorage.setItem("theaterName",theaterName)
     localStorage.setItem("movieTime",time)
-    window.location.href="Seat.html"
+       if (activeis ){
+          window.location.href="Seat.html"
+       }
+       
     console.log(theaterName);
-
-    
-
   })
 })
-    
+
   container.appendChild(div)
-  
-
     }
-
-  }
-  else if (currentTime>time ){
-    remove(time)
   }
 else{
-  console.log("not found")
+  console   .log("not found")
 }
 
 }
+
  fetchtheaterDetails()
 // Other functions like `movieshow` can remain as they are or be further adjusted based on your logic.
 
@@ -148,45 +189,14 @@ else{
     let newDate = new Date();
     newDate.setDate(newDate.getDate()+i);
     
-    let options={ weekday: 'short', day: 'numeric' };
+  let options={ weekday: 'short', day: 'numeric' };
   let formatDate = new Intl.DateTimeFormat('en-US', options).format(newDate)
   dateArr.push(formatDate)
+  console.log(dateArr);
+
+  
   }
 
   renderDate(dateArr);
 
  }
- function renderDate(arr){
-  let newContainer = document.createDocumentFragment();
-
-  for(let date of arr){
-    let createDiv = document.createElement("div");
-  createDiv.textContent = date;
-  createDiv.classList.add("dateItems")
-  
-  newContainer.appendChild(createDiv);
-
-  }
-  document.querySelector("#dateContainer").append(newContainer)
- }
- getDates()
-
-// listerer for dateActive
-
-document.querySelectorAll(".dateItems").forEach((element)=>{
-  element.addEventListener("click",()=>{
-    let activeElement = document.querySelector(".dateActive");
-    if(activeElement){
-       
-      activeElement.classList.remove("dateActive")
-      element.classList.add("dateActive");
-    
-    }
-    else{
-      element.classList.add("dateActive");
-document.querySelectorAll(".showTimings").forEach((element)=>element.style.display="flex");
-
-    }
-  })
-})
-
