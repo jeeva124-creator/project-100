@@ -28,11 +28,16 @@ const totalPrice = localStorage.getItem('totalPrice') || 0;
 
 
 let selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
-let ShowDate=localStorage.getItem("selectDate")
+console.log(selectedSeats
+    
+)
+let ShowDate=localStorage.getItem("selectedDate")
+console.log(ShowDate);
+
 
 async function saveBookedSeats() {
         console.log(selectedSeats);
-        const theaterTimeRef = ref(db, `theatres/${theaterName}/bookedSeats/`);
+        const theaterTimeRef = ref(db, `booked/${theaterName}/${ShowDate}`);
         let bookedSeatsData=await get(theaterTimeRef)
         if (bookedSeatsData.exists()) {
           let bookedSeats=bookedSeatsData.val()
@@ -59,7 +64,6 @@ window.onload = () => {
     const showtimes=document.getElementById("showtimes")
     const  theater= document.getElementById("theatername")
 
-    let ShowDate=localStorage.getItem("selectDate")
     selectedSeatsText.textContent = `Selected Seats: ${selectedSeats.join(', ')}`;
     totalPriceText.textContent = `Total Price: ₹${totalPrice}`;
     moviename.textContent=`Moviename:${movie.slice(1,-1)}`
@@ -268,23 +272,6 @@ let backButton=document.querySelector(".back-button")
 backButton.addEventListener("click",()=>{
     window.history.back()
 })
-
-function downloadTicket() {
-    const ticketDetails = document.getElementById('ticketDetails').innerText;
-    
-    // Create a Blob with the ticket content
-    const blob = new Blob([ticketDetails], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-   
-    // Create a link and trigger download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ticket.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-}
 
 
 

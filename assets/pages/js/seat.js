@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 
 let previousbutton=document.querySelector(".back-button")
-
+let selectedDate=localStorage.getItem('selectedDate')
 
 previousbutton.addEventListener("click",()=>{
 
@@ -139,7 +139,7 @@ async function getLayout() {
     const getref = ref(db, `theatres/${selectedtheater}/seats`);
     const response = await get(getref);
 
-    const bookedSeatRef=ref(db, `theatres/${selectedtheater}/bookedSeats`);
+    const bookedSeatRef=ref(db, `booked/${selectedtheater}/${selectedDate}`);
     const bookedSeatResponse=await get(bookedSeatRef)
     if (response.exists()) {
       const data = response.val();

@@ -240,14 +240,12 @@ const auth = getAuth();
         console.log(bookedData);
         let bookedDataKeys=Object.keys(bookedData)
         
-        function getDate(){
-            const today = new Date();
-const day = String(today.getDate()).padStart(2, "0");
-const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-const year = today.getFullYear();
+        function getDate(date){
+          
+            const year = new Date().getFullYear();
 
-const formattedDate = `${day}/${month}/${year}`
-return formattedDate;
+            const formattedDate = `${date} ${year}`
+            return formattedDate;
         }
         
         bookedDataKeys.forEach((key,index) => {
@@ -256,7 +254,7 @@ return formattedDate;
                 div.classList.add('booking-card')
                 div.innerHTML=`<h2>Booking #${Math.floor(10000 + Math.random() * 90000)+index}</h2>
                     <p><strong>Movie:</strong><b> ${order.movie.slice(1,-1)}</b></p>
-                    <p><strong>Date:</strong> ${getDate()}</p>
+                    <p><strong>Date:</strong> ${getDate(order.ShowDate)}</p>
                     <p><strong>Time:</strong> ${order.timeing}</p>
                     <p><strong>Seats:</strong>${order.selectedSeats}</p>`
                 bookingContainer.appendChild(div)

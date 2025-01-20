@@ -78,12 +78,10 @@ function renderDate(arr){
   
        createDiv.querySelector(".dateItems")
   newContainer.appendChild(createDiv);
-
-
-
+ 
   }
  document.querySelector("#dateContainer").append(newContainer)
-
+ 
  }
 
 
@@ -100,8 +98,8 @@ document.querySelectorAll(".dateItems").forEach((element)=>{
       element.classList.add("dateActive");
       activeis=true
       console.log(element);
-      
-      localStorage.setItem("selectDate",element.innerHTML)
+        
+      localStorage.setItem("selectedDate",element.innerHTML)
 
     }
     else{
@@ -188,8 +186,9 @@ else{
   for(let i = 0; i < 7; i++){
     let newDate = new Date();
     newDate.setDate(newDate.getDate()+i);
+   
     
-  let options={ weekday: 'short', day: 'numeric' };
+  let options={ weekday: 'short', day: 'numeric'};
   let formatDate = new Intl.DateTimeFormat('en-US', options).format(newDate)
   dateArr.push(formatDate)
   console.log(dateArr);
@@ -198,5 +197,6 @@ else{
   }
 
   renderDate(dateArr);
+ 
 
  }
