@@ -37,8 +37,11 @@ console.log(ShowDate);
 
 async function saveBookedSeats() {
         console.log(selectedSeats);
+
         const theaterTimeRef = ref(db, `booked/${theaterName}/${ShowDate}`);
+
         let bookedSeatsData=await get(theaterTimeRef)
+        
         if (bookedSeatsData.exists()) {
           let bookedSeats=bookedSeatsData.val()
           bookedSeats=bookedSeats.filter(seat=>seat!=undefined)
@@ -78,58 +81,7 @@ document.getElementById('creditCardBtn').addEventListener('click', function () {
     processPayment("Credit/Debit Card");
     
     
-// movieTicket.innerHTML=` <div class="m-ticket">
-      
-//       <p class="m">M-Ticket</p>
-      
-//       <div class="movie-details">
-//         <img src="https://pbs.twimg.com/media/FshgstvakAA5sE7.jpg" class="poster">
-        
-        
-//         <div class="movie">
-//           <h4>${movie}</h4>
-          
-          
-//           <p>${time} | ${Date}</p>
-//           <p>${theaterName}</p>
-//         </div>
-        
-//       </div>
-      
-//       <div class="info">
-//         Tap for support, details & more actions
-//       </div>
-      
-//       <div class="ticket-details">
-//         <img src="${movieimg}" class="scan">
-        
-//         <div class="ticket">
-//           <p>3Ticket(s)</p>
-          
-//           <b>SCREEN 1</b>
-          
-//           <p>${selectedSeats.join(', ')}</p>
-          
-//           <h6>BOOKING ID: Tbafeq7</h6>
-          
-//         </div>
-        
-//       </div>
-      
-//       <div class="info-cancel">
-//        Cancellation not available for this venue
-//       </div>
-      
-//       <div class="total-amount">
-//         <p>Total Amount</p>
-        
-//         <p>${totalPrice}</p>
-//       </div>
-      
-//     </div>
 
-  
-// `
 
    
 });
@@ -172,61 +124,9 @@ function processPayment(paymentMethod) {
         // After payment, generate the ticket
         generateTicket(name, phone);  
 
-       
-
+    
     }, 3000);
 
-//     movieTicket.innerHTML=` <div class="m-ticket">
-      
-//       <p class="m">M-Ticket</p>
-      
-//       <div class="movie-details">
-//         <img src="https://pbs.twimg.com/media/FshgstvakAA5sE7.jpg" class="poster">
-        
-        
-//         <div class="movie">
-//           <h4>${movie}</h4>
-          
-          
-//           <p>${movieTime} | ${Date}</p>
-//           <p>${theaterName}</p>
-//         </div>
-        
-//       </div>
-      
-//       <div class="info">
-//         Tap for support, details & more actions
-//       </div>
-      
-//       <div class="ticket-details">
-//         <img src="${movieimg}" class="scan">
-        
-//         <div class="ticket">
-//           <p>3Ticket(s)</p>
-          
-//           <b>SCREEN 1</b>
-          
-//           <p>${selectedSeats.join(', ')}</p>
-          
-//           <h6>BOOKING ID: Tbafeq7</h6>
-          
-//         </div>
-        
-//       </div>
-      
-//       <div class="info-cancel">
-//        Cancellation not available for this venue
-//       </div>
-      
-//       <div class="total-amount">
-//         <p>Total Amount</p>
-        
-//         <p>${totalPrice}</p>
-//       </div>
-      
-//     </div>
-  
-// `
 
 }
 
@@ -246,7 +146,6 @@ function generateTicket(name, phone) {
         <strong>moviename:</strong> ${movie}<br>
         <strong>Seats:</strong> ${selectedSeats.join(', ')}<br>
         <strong>Time& Date:</strong> ${timeing}<br>
-        
         <strong>Total Price:</strong> ₹${totalPrice}
     `;
 
@@ -276,100 +175,6 @@ backButton.addEventListener("click",()=>{
 
 
 
-const ticket = document.querySelector('.m-ticket');
+// const ticket = document.querySelector('.m-ticket');
 
-const body = document.querySelector('body');
-
-// var dragvalue;
-
-
-//for laptop & computer
-
-// ticket.addEventListener('mousedown', ()=>{
-  
-//   ticket.style.position = "absolute";
-//   ticket.style.cursor = "move";
-//   dragvalue = ticket;
-  
-// })
-
-
-
-// document.addEventListener('mouseup', ()=>{
-  
-//   dragvalue = null;
-  
-// })
-
-
-// document.addEventListener('mousemove', (e)=>{
-  
-//   var x = e.clientX;
-//   var y = e.clientY;
-  
-
-//  dragvalue.style.cursor = "move";
-  
-//     var a = body.getBoundingClientRect();
-  
-  
-//     if(x > 0 && x < a.width - 350){
-//      dragvalue.style.left = x + "px";
-//   }
-  
-//     if(y > 0 && y < a.height - 400){
-//      dragvalue.style.top = y + "px";
-//   }
-  
-// })
-
-
-
-// //for mobile touch effect
-
-// document.addEventListener('touchstart', (e)=>{
-  
-//   var x = e.touches[0].clientX;
-//   var y = e.touches[0].clientY;
-  
-//       var a = body.getBoundingClientRect();
-  
-  
-//     if(x > 0 && x < a.width - 350){
-//     ticket.style.left = x + "px";
-//   }
-  
-//     if(y > 0 && y < a.height - 400){
-//      ticket.style.top = y + "px";
-//   }
-  
-// })
-
-
-// document.addEventListener('touchmove', (e)=>{
-  
-//    var x = e.touches[0].clientX;
-//   var y = e.touches[0].clientY;
-  
-//       var a = body.getBoundingClientRect();
-  
-  
-//     if(x > 0 && x < a.width - 350){
-//     ticket.style.left = x + "px";
-//   }
-  
-//     if(y > 0 && y < a.height - 400){
-//      ticket.style.top = y + "px";
-//   }
-  
-// })
-
-
-
-// document.addEventListener('touchend', (e)=>{
-  
-//   ticket = null;
-  
-// })
-
-
+// const body = document.querySelector('body');

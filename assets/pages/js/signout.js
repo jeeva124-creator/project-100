@@ -21,6 +21,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app); // Initialize the auth instance
 
+console.log("lodeads");
+
 // Logout button event listener
  let logout=document.querySelector(".logout-btn")
  logout.addEventListener("click", function () {

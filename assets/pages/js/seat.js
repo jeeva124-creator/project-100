@@ -1,6 +1,10 @@
 // Firebase and other initialization code stays as it is
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  get,
+} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -14,14 +18,12 @@ const firebaseConfig = {
   measurementId: "G-ZK48NYGYDP",
 };
 
+let previousbutton = document.querySelector(".back-button");
+let selectedDate = localStorage.getItem("selectedDate");
 
-let previousbutton=document.querySelector(".back-button")
-let selectedDate=localStorage.getItem('selectedDate')
-
-previousbutton.addEventListener("click",()=>{
-
-  window.history.back()
-})
+previousbutton.addEventListener("click", () => {
+  window.history.back();
+});
 
 let queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -38,24 +40,23 @@ let selectedSeats = [];
 let totalPrice = 0;
 const SEAT_PRICE = 190;
 
-let selectis=false
+let selectis = false;
 function toggleSeatSelection(seatElement) {
-if (seatElement.classList.contains('bookedseat') ){
-return
-}
-  if (seatElement.classList.contains('selected') ) {
+  if (seatElement.classList.contains("bookedseat")) {
+    return;
+  }
+  if (seatElement.classList.contains("selected")) {
     // Deselect the seat
-    seatElement.classList.remove('selected');
-    selectis=true
+    seatElement.classList.remove("selected");
+    selectis = true;
 
     const seatIndex = selectedSeats.indexOf(seatElement.textContent);
-    if (seatIndex > -1 ) {
+    if (seatIndex > -1) {
       selectedSeats.splice(seatIndex, 1);
       totalPrice -= SEAT_PRICE;
     }
-    
   } else {
-      seatElement.classList.add('selected');
+    seatElement.classList.add("selected");
     selectedSeats.push(seatElement.textContent);
     totalPrice += SEAT_PRICE;
   }
@@ -64,90 +65,88 @@ return
 
 // Function to update ticket summary
 function updateTicketSummary() {
-  const ticketSummary = document.getElementById('ticketSummary');
+  const ticketSummary = document.getElementById("ticketSummary");
   ticketSummary.textContent = `${selectedSeats.length} Tickets`;
 
-  const totalPriceElement = document.getElementById('totalPrice');
+  const totalPriceElement = document.getElementById("totalPrice");
   totalPriceElement.textContent = `Total Price: ₹${totalPrice}`;
 
-  const selectedSeatsElement = document.getElementById('selectedSeats');
-  selectedSeatsElement.textContent = `Selected Seats: ${selectedSeats.join(', ')}`;
+  const selectedSeatsElement = document.getElementById("selectedSeats");
+  selectedSeatsElement.textContent = `Selected Seats: ${selectedSeats.join(
+    ", "
+  )}`;
 }
 
 // Function to handle seat rendering
-function renderLayout(dataObj,bookedSeats) {
-  seatContainer.innerHTML = ''; // Clear any previous seat layout
+function renderLayout(dataObj, bookedSeats) {
+  seatContainer.innerHTML = ""; // Clear any previous seat layout
   console.log(dataObj);
- 
-  
+
   dataObj.forEach((rowData, rowIndex) => {
     let container = document.createElement("div");
     container.classList.add("row");
-    rowData=rowData.split(" ")
-  
+    rowData = rowData.split(" ");
+
+    rowData.forEach((seat) => {
+      const seatLabel = String.fromCharCode(65 + rowIndex) + seat;
+      let isBooked;
       
-      
-      rowData.forEach((seat) => {
-        const seatLabel = String.fromCharCode(65 + rowIndex) + (seat);
-        let isBooked;
+
+      if (!Array.isArray(bookedSeats)) {
+        isBooked = false;
+      } else {
+        isBooked = bookedSeats.includes(seatLabel);
         console.log(seatLabel);
-        console.log(bookedSeats);
-        
-        
-        if (!Array.isArray(bookedSeats)) {
-          isBooked=false;
+      }
+      console.log(isBooked);
+
+      let newBox = document.createElement("div");
+
+
+      if (seat === "_" || seat === "x") {
+        newBox.classList.add("hide");
+        newBox.textContent = seat;
+        console.log(newBox);
+      } else {
+        newBox.classList.add("column");
+        if (isBooked) {
+          console.log(seatLabel);
+
+          newBox.classList.add("bookedseat");
         }
-        else{
-          isBooked=bookedSeats.includes(seatLabel);
-        }
-  
+        newBox.textContent = seatLabel;
 
-     let newBox = document.createElement("p");
+        // Add event listener for seat selection
+        newBox.addEventListener("click", function () {
+          if (!newBox.classList.contains("sold")) {
+            toggleSeatSelection(newBox);
+          }
+        });
+      }
 
-     if (seat === "_" || seat === "x" || seat === "") {
-       newBox.classList.add("hide");
-       newBox.textContent = seat;
-     } else {
-       newBox.classList.add("column");
-       if (isBooked){
-        console.log(seatLabel);
-        
-        newBox.classList.add("bookedseat");
-       }
-          newBox.textContent = seatLabel;
-
-       // Add event listener for seat selection
-       newBox.addEventListener('click', function () {
-         if (!newBox.classList.contains('sold')) {
-           toggleSeatSelection(newBox);
-         }
-       });
-     }
-
-     container.appendChild(newBox);
-     
-   
+      container.appendChild(newBox);
     });
     seatContainer.appendChild(container);
   });
 }
 
+
 // Fetch seat layout from Firebase and render
 async function getLayout() {
   try {
-
     const getref = ref(db, `theatres/${selectedtheater}/seats`);
     const response = await get(getref);
+    
+    const bookedSeatRef = ref(db, `booked/${selectedtheater}/${selectedDate}`);
+    const bookedSeatResponse = await get(bookedSeatRef);
 
-    const bookedSeatRef=ref(db, `booked/${selectedtheater}/${selectedDate}`);
-    const bookedSeatResponse=await get(bookedSeatRef)
+    
     if (response.exists()) {
       const data = response.val();
-      const bookedSeats=bookedSeatResponse.val()
+      const bookedSeats = bookedSeatResponse.val();
       console.log(data);
-      
-      renderLayout(data,bookedSeats);
 
+      renderLayout(data, bookedSeats);
     } else {
       console.log("Error: No seat data found");
     }
@@ -161,25 +160,17 @@ getLayout();
 
 // Handle the confirm booking button click
 
-document.getElementById('confirmBooking').addEventListener('click', function () {
-  if (selectedSeats.length > 0  && selectedSeats.length<10) {
-    
-      
-      localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-      localStorage.setItem('totalPrice', totalPrice);
-  window.location.href='/booking.html'
-  
-  }
-  else if (selectedSeats.length>=10){
-     alert("seats selected less than 10")
-  }
-  
-  else {
-    alert("No seats selected !");
-    return;
-  }
-});
-
-
-
-
+document
+  .getElementById("confirmBooking")
+  .addEventListener("click", function () {
+    if (selectedSeats.length > 0 && selectedSeats.length < 10) {
+      localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+      localStorage.setItem("totalPrice", totalPrice);
+      window.location.href = "/booking.html";
+    } else if (selectedSeats.length >= 10) {
+      alert("seats selected less than 10");
+    } else {
+      alert("No seats selected !");
+      return;
+    }
+  });

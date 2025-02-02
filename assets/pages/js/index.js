@@ -44,7 +44,7 @@ onAuthStateChanged(auth, (user) => {
      updateUI(null);
    }
  });
-  let logout=document.querySelector(".logout-btn")
+  let profile=document.querySelector(".user-actions")
   // Function to update UI based on user state
 function updateUI(user) {
   if (user) {
@@ -56,8 +56,7 @@ function updateUI(user) {
       if (snapshot.exists()) {
         const data = snapshot.val();
         console.log(data);
-        let loggedInUserName=document.querySelector(".loggedInUserName")
-        loggedInUserName.textContent=data
+     
       }
     });
    
@@ -68,7 +67,7 @@ function updateUI(user) {
 
     if (loginButton) {
       loginButton.style.display = "none";
-      logout.style.display = "block";
+      profile.style.display = "block";
 
     }
 
@@ -80,7 +79,7 @@ function updateUI(user) {
     
     if (loginButton) {
       loginButton.style.display = "block";
-      logout.style.display = "none";
+      profile.style.display = "none";
 
 
     }
@@ -174,5 +173,7 @@ searchBar.addEventListener("input", (e) => {
 let profileIcon = document.querySelector(".user-actions");
 
 profileIcon.addEventListener("click", ()=>{
+  console.log("click");
+  
     window.location.href = "..../../../../../profile.html";
 })

@@ -83,15 +83,23 @@ movieContainer.addEventListener("click", (e) => {
 });
 
 // Add more time slots dynamically for a theater
+// Add more time slots dynamically for a theater
 movieContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("addTimeBtn")) {
     const theaterIndex = e.target.getAttribute("data-theater-index");
-    const timeFields = document.querySelector(`#timeFields-${theaterIndex}`);
-    const newTimeInput = document.createElement("input");
-    newTimeInput.type = "time";
-    newTimeInput.className = "form-control mt-2";
-    newTimeInput.name = `time-${theaterIndex}[]`;
-    timeFields.appendChild(newTimeInput);
+    
+    // Identify the correct time field container by dynamically constructing its ID
+    const timeFields = e.target.previousElementSibling;
+    
+    if (timeFields) {
+      const newTimeInput = document.createElement("input");
+      newTimeInput.type = "time";
+      newTimeInput.className = "form-control mt-2";
+      newTimeInput.name = `time-${theaterIndex}[]`;
+      timeFields.appendChild(newTimeInput);
+    } else {
+      console.error(`Time container for theater index ${theaterIndex} not found.`);
+    }
   }
 });
 
@@ -148,19 +156,7 @@ form.addEventListener("submit", async (e) => {
       console.error("Error updating data:", error);
     }
   }
-  
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   // Show success message
   document.querySelector(".alert").style.display = "block";

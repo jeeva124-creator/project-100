@@ -75,8 +75,7 @@ function validateForm() {
   clearErrors();
   let isValid = true;
 
-  const usernameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{4,15}$/;
-  if (!usernameRegex.test(nameInput.value)) {
+  if (!nameInput.value>3 && !nameInput.value<15) {
     errorName.textContent = "Username must be 5-15 characters, include letters and numbers.";
     isValid = false;
   }

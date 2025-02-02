@@ -4,151 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
-    <style>
-        /* Enhanced Styling for Professional Look */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f7f7f7;
-            color: #333;
-        }
-
-        .sidebar {
-            background: #2c2c2c;
-            color: #fff;
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            padding: 20px 15px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            font-size: 22px;
-            color: #ff4d4d;
-            margin-bottom: 30px;
-        }
-
-        .sidebar a {
-            display: block;
-            text-decoration: none;
-            font-size: 16px;
-            color: #ccc;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .sidebar a.active, .sidebar a:hover {
-            background: #ff4d4d;
-            color: #fff;
-        }
-
-        .logout-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff4d4d;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s;
-        }
-
-        .logout-button:hover {
-            background: #e63939;
-        }
-
-        .main-content {
-            margin-left: 270px;
-            padding: 30px;
-        }
-
-        .main-content h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #444;
-        }
-
-        .section {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .profile-info div, .booking-card {
-            margin-bottom: 15px;
-        }
-
-        .profile-info label {
-            font-weight: bold;
-            display: inline-block;
-            width: 130px;
-        }
-
-        .profile-info span {
-            font-size: 16px;
-        }
-
-        .bookings-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .booking-card {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            flex: 1 1 calc(45% - 10px);
-            border: 1px solid #b5b2b2;
-            
-        }
-
-        .booking-card h2 {
-            font-size: 18px;
-            color: #444;
-            margin-bottom: 10px;
-        }
-
-        .booking-card p {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: #2c2c2c;
-            color: #fff;
-            margin-top: 30px;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-    </style>
+     <link rel="stylesheet" href="/assets/pages/css/profile.css">
 </head>
 <body>
     <div class="sidebar">
-        <h2>CineWorld</h2>
+       <a href="/index.html"><h2>CineWorld</h2></a> 
         <a href="#profile" class="active" onclick="showSection('profile')">Profile Details</a>
         <a href="#bookings" onclick="showSection('bookings')">My Bookings</a>
-        <a href="#settings" onclick="showSection('settings')">Settings</a>
-    </div>
+            </div>
 
-    <button class="logout-button" id="logoutBtn">Logout</button>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
 
     <div class="main-content">
         <!-- Profile Section -->
@@ -157,41 +22,38 @@
             <div class="profile-info">
                 <div>
                     <label>Name:</label>
-                    <span>John Doe</span>
+                    <span>Jeevanantham </span>
                 </div>
                 <div>
                     <label>Email:</label>
-                    <span>johndoe@example.com</span>
+                    <span>rjeevanantham20@gmail.com</span>
                 </div>
-                <div>
+                <div> 
                     <label>Phone Number:</label>
-                    <span>+1234567890</span>
+                    <span>6369832705</span>
                 </div>
                 <div>
-                    <label>Date of Birth:</label>
-                    <span>01/01/1990</span>
-                </div>
+                  
+                </div>       
+            </div>
             </div>
         </div>
 
         <!-- Bookings Section -->
         <div id="bookings" class="section" style="display: none;">
             <h1>My Bookings</h1>
-            <div class="bookings-list">          
-            </div>
+            <div class="bookings-list">   
+              
         </div>
 
-        <!-- Settings Section -->
-        <div id="settings" class="section" style="display: none;">
-            <h1>Settings</h1>
-            <p>Manage your account settings here.</p>
-        </div>
+        
     </div>
     <script type="module">
 // Firebase and other initialization code stays as it is
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getDatabase, ref, set,get } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
-import { getAuth, onAuthStateChanged, signOut ,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut ,createUserWithEmailAndPassword,} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -209,6 +71,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth();
+
+
+console.log("page lodesd");
+
+
+// Logout button event listener
+let logout=document.querySelector(".logout-btn")
+ logout.addEventListener("click", function () {
+  console.log("Sign-out initiated...");
+  alert("Logging out...");
+  
+
+  // Firebase sign-out process
+  signOut(auth)
+    .then(() => {
+      console.log("Sign-out successful.");
+    
+      localStorage.clear();
+
+   
+    //   document.getElementById("logout-btn").style.display = "none";
+
+      window.location.href = "index.html";
+    })
+
+    .catch((error) => {
+    
+      console.error("An error occurred during sign-out:", error.message);
+      alert("Sign-out failed. Please try again.");
+    });
+});
+
 
 
 
@@ -260,21 +154,14 @@ const auth = getAuth();
                 bookingContainer.appendChild(div)
         });
     }
+     
+
+    userinfo.forEach((key))
+      
+    
 
 
-    document.getElementById('logoutBtn').addEventListener('click',()=>{
-        signOut(auth)
-  .then(() => {
-    // Sign-out successful
-    console.log("User signed out successfully.");
-    localStorage.removeItem('loggedInAccount')
-    window.location.href='index.html'
-  })
-  .catch((error) => {
-    // An error happened
-    console.error("Error signing out: ", error);
-  });
-    })
+
 
     </script>
 </body>
