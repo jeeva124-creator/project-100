@@ -22,6 +22,10 @@ body {
     color: #ff4d4d;
     margin-bottom: 30px;
 }
+.sidebar  h2:hover{
+    color: white;
+    }
+
 
 .sidebar a {
     display: block;
@@ -33,6 +37,9 @@ body {
     border-radius: 5px;
     transition: background 0.3s, color 0.3s;
 }
+.sidebar  a :hover{
+    color: white;
+    }
 
 .sidebar a.active, .sidebar a:hover {
     background: #ff4d4d;

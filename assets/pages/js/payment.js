@@ -82,7 +82,6 @@ document.getElementById('creditCardBtn').addEventListener('click', function () {
     
     
 
-
    
 });
  let  movieimg=localStorage.getItem("movieimg")
@@ -112,20 +111,21 @@ function processPayment(paymentMethod) {
     }
 
     // Simulate a payment process
-    paymentStatus.style.display = 'block';
-    paymentStatus.textContent = `Processing your payment via ${paymentMethod}...`;
 
+    // paymentStatus.style.display = 'block';
+    // paymentStatus.textContent = `Processing your payment via ${paymentMethod}...`;
 
+       window.location.href="/ticket.html"
     // Simulate a success message (you can integrate actual payment gateways here)
-    setTimeout(() => {
-        paymentStatus.innerHTML = `<p>Payment Successful! Thank you for booking your tickets, ${name}.</p>
-        <a href="/index.html">Go to home page</a>`;
-        saveBookedSeats()
-        // After payment, generate the ticket
-        generateTicket(name, phone);  
+    // setTimeout(() => {
+    //     paymentStatus.innerHTML = `<p>Payment Successful! Thank you for booking your tickets, ${name}.</p>
+    //     <a href="/index.html">Go to home page</a>`;
+    //     saveBookedSeats()
+    //     // After payment, generate the ticket
+    //     generateTicket(name, phone);  
 
     
-    }, 3000);
+    // }, 3000);
 
 
 }

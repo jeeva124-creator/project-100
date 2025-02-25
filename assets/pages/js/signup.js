@@ -74,12 +74,14 @@ document.addEventListener("DOMContentLoaded",(e)=>{
 function validateForm() {
   clearErrors();
   let isValid = true;
-
-  if (!nameInput.value>3 && !nameInput.value<15) {
+  let namePattern = /^[A-Za-z\s]+$/;
+  if (!namePattern.test(nameInput.value)) {
     errorName.textContent = "Username must be 5-15 characters, include letters and numbers.";
     isValid = false;
   }
-
+  if(nameInput!==""){
+    errorName.textContent="Enter the Name"
+  }
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(emailInput.value)) {
     errorEmail.textContent = "Please enter a valid email address.";

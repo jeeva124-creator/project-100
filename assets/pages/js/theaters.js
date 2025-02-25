@@ -159,6 +159,7 @@ async function fetchTheaterDetails() {
   }
 }
 
+
 // Initialize functions
 fetchMovieDetails();
 getDates();
