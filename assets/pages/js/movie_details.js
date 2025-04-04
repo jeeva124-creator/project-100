@@ -4,10 +4,8 @@ import {
   ref,
   onValue,
 } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
 // Firebase configuration
-
-// const imdb='57483675';
-
 const firebaseConfig = {
   apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
   authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
@@ -22,39 +20,41 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-// Reference to a specific path in the database (e.g., 'users')
-let queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString); // class
-const selectedShowId = urlParams.get("movieId");
-const usersRef = ref(db, `movies/${selectedShowId}`);
 
-setMovieDetails();
-async function setMovieDetails() {
-  let movieDetails;
+// Fetch movie ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const selectedMovieId = urlParams.get("movieId");
 
-  // Fetch movie data from Firebase
-  onValue(usersRef, async (snapshot) => {
-    if (selectedShowId == selectedShowId) {
-      if (snapshot.exists()) {
-        movieDetails = snapshot.val();
-        console.log(movieDetails);
+// const usersRef = ref(db, `movies/${selectedShowId}`);
+const usersRef = ref(db, `movies/${selectedMovieId}`);
+// Function to fetch movie rating from OMDB API
+async function fetchMovieRating(movieTitle) {
+  const omdbApiKey = "9983891e";
+  const omdbUrl = `https://www.omdbapi.com/?t=${encodeURIComponent(movieTitle)}&apikey=${omdbApiKey}`;
 
-        // Fetch rating from OMDB API
-        const omdbApiKey = "9983891e";
-        const omdbUrl = `https://www.omdbapi.com/?t={movieDetails.title&apikey=${omdbApiKey}`;
-        let movieRating = "N/A"; // Default value if rating is not found
+  try {
+    const response = await fetch(omdbUrl);
+    const omdbData = await response.json();
 
-        try {
-          const response = await fetch(omdbUrl);
-          const omdbData = await response.json();
-          if (omdbData.Response === "True" && omdbData.imdbRating) {
-            movieRating = omdbData.imdbRating;
-          }
-        } catch (error) {
-          console.error("Error fetching data from OMDB:", error);
-        }
+    if (omdbData.Response === "True" && omdbData.imdbRating) {
+      return omdbData.imdbRating; // Return the rating
+    }
+  } catch (error) {
+    console.error("Error fetching data from OMDB:", error);
+  }
+  return "N/A"; // Default rating if fetch fails
+}
 
-        // Render the movie details to the page
+
+// Fetch movie details from Firebase
+function setMovieDetails() {
+  onValue(usersRef, (snapshot) => {
+    if (snapshot.exists()) {
+      const movieDetails = snapshot.val();
+      console.log(movieDetails);
+
+      // Fetch rating from OMDB API and then update the UI
+      fetchMovieRating(movieDetails.title).then((movieRating) => {
         document.body.innerHTML = `
           <section class="movieDetails">
             <header>
@@ -66,7 +66,7 @@ async function setMovieDetails() {
                 <button type="button" class="View-All-shows">View All shows</button>
               </a>
             </header>
-  
+
             <section>
               <div class="movie_trailer">
                 <iframe src="${movieDetails.Trailer}"
@@ -74,7 +74,7 @@ async function setMovieDetails() {
                   referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
             </section>
-  
+
             <section class="minfo-container">
               <div>
                 <div class="info-row">
@@ -83,7 +83,7 @@ async function setMovieDetails() {
                 </div>
                 <div class="info-row">
                   <label>Rating:</label>
-                  <p class="value">${movieRating}</p>
+                  <p class="value">${movieRating}</p> <!-- Rating dynamically set -->
                 </div>
                 <div class="info-row">
                   <label>Languages:</label>
@@ -103,8 +103,7 @@ async function setMovieDetails() {
             <section>
               <div class="Synopsis">
                 <h2>Synopsis</h2>
-                <p>${movieDetails.Sunopsis
-                }</p>
+                <p>${movieDetails.Synopsis}</p>
               </div>
             </section>
             <section class="topcast">
@@ -124,18 +123,120 @@ async function setMovieDetails() {
             </section>
           `;
 
+          let title=document.querySelector(".title");
+          title.textContent=movieDetails.title
         // Add click event to actor names
-        const actors = document.getElementsByClassName("actor-name");
-        const actorsArray = Array.from(actors);
-        actorsArray.forEach((actor) => {
+        document.querySelectorAll(".actor-name").forEach((actor) => {
           actor.addEventListener("click", () => {
             const query = actor.innerText.split(" ").join("+");
             window.open(`https://www.google.com/search?q=${query}`, "_blank");
           });
         });
-      } else {
-        console.error((window.location.href = "../../../error.html"));
-      }
+      });
+    } else {
+      console.error((window.location.href = "../../../error.html"));
     }
   });
 }
+
+setMovieDetails();
+
+
+
+async function fetchMovieById(selectedMovieId) {
+console.log(selectedMovieId);
+
+
+  try {
+      const response = await fetch(`http://localhost:8080/movies/${selectedMovieId}`);
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const movie = await response.json();
+      
+      console.log("Movie Details:", movie); 
+      console.log(movie);
+      renderMovieDetails(movie); 
+      
+      // Ensure you have a function to handle single movie rendering
+  } catch (error) {
+      console.error("Error fetching movie:", error);
+  }
+}
+
+
+
+// Run the function
+
+// function renderMovieDetails(movieDetails){
+
+//   document.body.innerHTML = `
+//   <section class="movieDetails">
+//     <header>
+//       <div class="title">
+//         <h1>${movieDetails.movie_name}</h1>
+//         <p>${movieDetails.RunTime} / ${movieDetails.genre}</p>
+//       </div>
+//       <a href="../../../theaters.html?id=${movieDetails.id}&moviename=${movieDetails.name}">
+//         <button type="button" class="View-All-shows">View All shows</button>
+//       </a>
+//     </header>
+
+//     <section>
+//       <div class="movie_trailer">
+//         <iframe src="${movieDetails.trailer_url}"
+//           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+//           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+//       </div>
+//     </section>
+
+//     <section class="minfo-container">
+//       <div>
+//         <div class="info-row">
+//           <label>Director:</label>
+//           <p class="value">${movieDetails.director}</p>
+//         </div>
+//         <div class="info-row">
+//           <label>Rating:</label>
+//           <p class="value">${movieDetails.rating}</p> <!-- Rating dynamically set -->
+//         </div>
+//         <div class="info-row">
+//           <label>Release Date:</label>
+//           <p class="value">${movieDetails.release_date}</p>
+//         </div>
+//         <div class="info-row">
+//           <label>Run Time:</label>
+//           <p class="value">${movieDetails.RunTime}</p>
+//         </div>
+//       </div>
+//     </section>
+//     <hr class="hr">
+//     <section>
+//       <div class="Synopsis">
+//         <h2>Synopsis</h2>
+//         <p>${movieDetails.description}</p>
+//       </div>
+//     </section>
+//     <section class="topcast">
+//       <div class="top-cast">
+//         <h2 class="TopCast">Top Cast</h2>
+//         <div class="leadimg">
+//           <div class="actor">
+//             <img src="${movieDetails["lead-img"]}" alt="${movieDetails.name}">
+//             <h2 class="actor-name">${movieDetails["TopCast-lead"]}</h2>
+//           </div>
+//           <div class="actor">
+//             <img src="${movieDetails["sub-img"]}" alt="${movieDetails["sub-name"]}">
+//             <h2 class="actor-name">${movieDetails["sub-name"]}</h2>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   `;
+//   let title=document.querySelector(".title");
+//   title.textContent=movieDetails.title
+
+//   console.log(movie);
+// }
+
+// fetchMovieById(selectedMovieId);

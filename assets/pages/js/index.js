@@ -7,7 +7,9 @@ import {
   getDatabase,
   ref,
   onValue,
-} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+}
+ from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
 // Firebase configuration
 
 const firebaseConfig = {
@@ -55,16 +57,10 @@ function updateUI(user) {
     onValue(emailRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        console.log(data);
-     
+      
       }
     });
-   
-    
-
-  console.log("userlogin");
-    console.log(loginButton);
-
+       
     if (loginButton) {
       loginButton.style.display = "none";
       profile.style.display = "block";
@@ -85,12 +81,13 @@ function updateUI(user) {
     }
   }
 }
+
 // function to view to list of movies
 
 onValue(usersRef, (snapshot) => {
   if (snapshot.exists()) {
     const data = snapshot.val();
-    console.log(data);
+   
 
     movies = data.map((show, index) => {
       if (index == 0) {
@@ -98,7 +95,6 @@ onValue(usersRef, (snapshot) => {
       }
       const div = document.createElement("div");
       div.classList.add("movie-container");
-      console.log(show)
       div.innerHTML = `
           <img src="${show["movieImg"]}" alt="${show.title}">
           <h3>${show.title}</h3> 
@@ -117,7 +113,39 @@ onValue(usersRef, (snapshot) => {
 
   }
 });
-// function for the search functionality
+
+
+// async function fetchMovies() {
+//   try {
+//       const response = await fetch("http://localhost:8080/movies");
+//       if (!response.ok) {
+//           throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+//       const movies = await response.json();
+      
+      
+      
+//       renderMovies(movies);
+//   } catch (error) {
+//       console.error("Error fetching movies:", error);
+//   }
+// }
+
+function renderMovies(movies) {
+
+  movies.forEach((movie, index) => {
+    const div = document.createElement("div");
+    div.classList.add("movie-container");
+    div.innerHTML = `
+        <img src="${movie.img_url}" alt="${movie.name}">
+        <h3>${movie.movie_name}</h3> 
+        <p>${movie.genre}</p>
+        <a href="./../../../movie_details.html?movieId=${movie.id}" class="bookTicketButton">Book Ticket</a>
+        <p id="error"></p>`;
+
+    head.append(div);
+  });
+}
 
 searchBar.addEventListener("input", (e) => {
   const value = e.target.value.toLowerCase();
@@ -166,8 +194,6 @@ searchBar.addEventListener("input", (e) => {
 });
 
 
-// console.log(movie)
-
 // Profile page view
 
 let profileIcon = document.querySelector(".user-actions");
@@ -177,3 +203,6 @@ profileIcon.addEventListener("click", ()=>{
   
     window.location.href = "..../../../../../profile.html";
 })
+
+
+document.addEventListener("DOMContentLoaded", fetchMovies);

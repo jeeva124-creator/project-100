@@ -140,13 +140,22 @@ async function fetchTheaterDetails() {
             const theaterName = theatreInfo.theaterName.trim();
             localStorage.setItem("theaterName", theaterName);
             localStorage.setItem("movieTime", time);
-
+          
+            let login = localStorage.getItem("loggedInAccount");
+          
+            if (!login) {  
+              alert("Please log in first");
+              window.location.href = "/login.html";
+              return; 
+            }
+          
             if (document.querySelector(".dateActive")) {
               window.location.href = "Seat.html";
             } else {
               alert("Please select a date first");
             }
           });
+          
         });
 
         container.appendChild(div);

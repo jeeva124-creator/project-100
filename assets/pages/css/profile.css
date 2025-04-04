@@ -86,8 +86,11 @@ body {
 
 .profile-info div, .booking-card {
     margin-bottom: 15px;
-}
 
+}
+.profile-info div,.booking-card{
+    margin-left: 280px;
+}
 .profile-info label {
     font-weight: bold;
     display: inline-block;

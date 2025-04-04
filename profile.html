@@ -121,6 +121,7 @@ let logout=document.querySelector(".logout-btn")
 
             // Add active class to the clicked link
             event.target.classList.add('active');
+            
         }
         getBookings()
 
@@ -130,19 +131,27 @@ let logout=document.querySelector(".logout-btn")
         let userEmail=localStorage.getItem("loggedInAccount").replace(".","_")
         const theaterTimeRef = ref(db, `orders/${userEmail}`);
         let data= await get(theaterTimeRef); 
+      
+        
+
         let bookedData=data.val()
         console.log(bookedData);
-        let bookedDataKeys=Object.keys(bookedData)
+        let bookedDataKeys=null;
+
+        if(bookedData){
+            bookedDataKeys =  Object.keys(bookedData)
+        }
         
         function getDate(date){
           
             const year = new Date().getFullYear();
-
+   
             const formattedDate = `${date} ${year}`
             return formattedDate;
         }
         
-        bookedDataKeys.forEach((key,index) => {
+        if (bookedDataKeys){
+            bookedDataKeys.forEach((key,index) => {
                 let order=bookedData[key]
                 let div=document.createElement("div")
                 div.classList.add('booking-card')
@@ -153,16 +162,13 @@ let logout=document.querySelector(".logout-btn")
                     <p><strong>Seats:</strong>${order.selectedSeats}</p>`
                 bookingContainer.appendChild(div)
         });
+        }
     }
      
-
-    userinfo.forEach((key))
-      
     
-
-
-
-
+    
+    
+      
     </script>
 </body>
 </html>

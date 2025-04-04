@@ -4,7 +4,8 @@ import {
   getDatabase,
   ref,
   get,
-} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+} 
+from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -19,7 +20,7 @@ const firebaseConfig = {
 };
 
 let previousbutton = document.querySelector(".back-button");
-let selectedDate = localStorage.getItem("selectedDate");
+let selectedDate = localStorage.getItem("selectDate");
 
 previousbutton.addEventListener("click", () => {
   window.history.back();
@@ -55,12 +56,15 @@ function toggleSeatSelection(seatElement) {
       selectedSeats.splice(seatIndex, 1);
       totalPrice -= SEAT_PRICE;
     }
-  } else {
+
+  } 
+  else {
     seatElement.classList.add("selected");
     selectedSeats.push(seatElement.textContent);
     totalPrice += SEAT_PRICE;
   }
   updateTicketSummary();
+  
 }
 
 // Function to update ticket summary
@@ -104,13 +108,13 @@ function renderLayout(dataObj, bookedSeats) {
 
 
       if (seat === "_" || seat === "x") {
-        newBox.classList.add("hide");
+        newBox.classList.add("hide")
         newBox.textContent = seat;
-        console.log(newBox);
+       
       } else {
         newBox.classList.add("column");
         if (isBooked) {
-          console.log(seatLabel);
+          
 
           newBox.classList.add("bookedseat");
         }
@@ -133,21 +137,21 @@ function renderLayout(dataObj, bookedSeats) {
 
 // Fetch seat layout from Firebase and render
 async function getLayout() {
+  let movieTime=localStorage.getItem("movieTime")
   try {
     const getref = ref(db, `theatres/${selectedtheater}/seats`);
     const response = await get(getref);
     
-    const bookedSeatRef = ref(db, `booked/${selectedtheater}/${selectedDate}`);
+    const bookedSeatRef = ref(db, `booked/${selectedtheater}/${selectedDate}/${movieTime}`);
     const bookedSeatResponse = await get(bookedSeatRef);
-
-    
+   
     if (response.exists()) {
       const data = response.val();
       const bookedSeats = bookedSeatResponse.val();
-      console.log(data);
+
 
       renderLayout(data, bookedSeats);
-    } else {
+    } else {  
       console.log("Error: No seat data found");
     }
   } catch (err) {
@@ -173,4 +177,5 @@ document
       alert("No seats selected !");
       return;
     }
+    
   });

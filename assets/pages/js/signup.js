@@ -56,9 +56,12 @@ document.addEventListener("DOMContentLoaded",(e)=>{
           const password = passwordInput.value;
       
           localStorage.setItem("userName", username);
-          localStorage.setItem("loggedInAccount",email)
+          localStorage.setItem("loggedInAccount",email);
           createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            
+          .then((userCredential) => {
+
+
               console.log("User created:", userCredential);
            addUser(email,username)
             })
@@ -74,18 +77,18 @@ document.addEventListener("DOMContentLoaded",(e)=>{
 function validateForm() {
   clearErrors();
   let isValid = true;
-  let namePattern = /^[A-Za-z\s]+$/;
-  if (!namePattern.test(nameInput.value)) {
+ 
+  if (false) {
     errorName.textContent = "Username must be 5-15 characters, include letters and numbers.";
     isValid = false;
+
   }
-  if(nameInput!==""){
-    errorName.textContent="Enter the Name"
-  }
+ 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(emailInput.value)) {
     errorEmail.textContent = "Please enter a valid email address.";
     isValid = false;
+
   }
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -101,4 +104,5 @@ function clearErrors() {
   errorName.textContent = "";
   errorEmail.textContent = "";
   errorPassword.textContent = "";
+
 }
