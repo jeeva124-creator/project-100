@@ -88,7 +88,6 @@ function validateForm() {
   if (!emailRegex.test(emailInput.value)) {
     errorEmail.textContent = "Please enter a valid email address.";
     isValid = false;
-
   }
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -97,7 +96,9 @@ function validateForm() {
     isValid = false;
   }
 
+  
   return isValid;
+
 }
 
 function clearErrors() {

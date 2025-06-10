@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookMyShow-style Seat Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f0f0f0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .screen {
+            margin: 0 auto 30px;
+            width: 80%;
+            height: 35px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .theater {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .seat {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 35px;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #ccc;
+        }
+
+        .available {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .booked {
+            background-color: #f44336;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .gap {
+            width: 40px; /* aisle space */
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Seat Layout</h2>
+    <div class="screen">SCREEN</div>
+    <div id="seat-container" class="theater"></div>
+
+
+
+    <script>
+        const showId = 2; // Replace with actual showId
+        const seatContainer = document.getElementById('seat-container');
+
+        fetch(`http://localhost:8080/seats/show/${showId}`)
+            .then(response => response.json())
+            .then(seats => {
+                
+                const rows = {};
+
+                // Group by row
+                seats.forEach(seat => {
+                    if (!rows[seat.rowLabel]) {
+                        rows[seat.rowLabel] = [];
+                    }
+                    rows[seat.rowLabel].push(seat);
+                });
+
+                // Sort and display rows
+                Object.keys(rows).sort().forEach(rowLabel => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.classList.add('row');
+
+                    // Sort by column
+                    const sortedSeats = rows[rowLabel].sort((a, b) => a.columnNumber - b.columnNumber);
+
+                    sortedSeats.forEach((seat, index) => {
+                        const seatDiv = document.createElement('div');
+                        seatDiv.className = `seat ${seat.booked ? 'booked' : 'available'}`;
+                        seatDiv.innerText = `${seat.rowLabel}${seat.columnNumber}`;
+
+                        rowDiv.appendChild(seatDiv);
+
+                        // Add aisle gap after 4th and 12th seat (adjust as needed)
+                        if (seat.columnNumber === 4 || seat.columnNumber === 12) {
+                            const gap = document.createElement('div');
+                            gap.classList.add('gap');
+                            rowDiv.appendChild(gap);
+                        }
+                    });
+
+                    seatContainer.appendChild(rowDiv);
+                });
+            })
+            .catch(error => console.error('Error loading seats:', error));
+    </script>
+
+</body>
+</html>

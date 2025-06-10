@@ -31,7 +31,11 @@ const auth = getAuth();
 
 const usersRef = ref(db, "/movies");
 
-const searchBar = document.querySelector(".search-input");
+// let recipientMail = localStorage.getItem("loggedInAccount");
+// console.log(recipientMail);
+
+
+// const searchBar = document.querySelector(".search-input");
 const head = document.querySelector(".movies-flux");
 
 let movies = [];
@@ -47,10 +51,12 @@ onAuthStateChanged(auth, (user) => {
    }
  });
   let profile=document.querySelector(".user-actions")
+
   // Function to update UI based on user state
 function updateUI(user) {
   if (user) {
     let email=user.email
+    
     console.log(email)
     const sanitizedEmail = email.replace('.', ',');
     const emailRef = ref(db, `/users/${sanitizedEmail}`);
@@ -82,63 +88,36 @@ function updateUI(user) {
   }
 }
 
-// function to view to list of movies
 
-onValue(usersRef, (snapshot) => {
-  if (snapshot.exists()) {
-    const data = snapshot.val();
-   
+async function fetchMovies() {
+  try {
 
-    movies = data.map((show, index) => {
-      if (index == 0) {
-        return;
+      const response = await fetch("http://localhost:8080/movies")
+    console.log(response);
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const div = document.createElement("div");
-      div.classList.add("movie-container");
-      div.innerHTML = `
-          <img src="${show["movieImg"]}" alt="${show.title}">
-          <h3>${show.title}</h3> 
-          <p>${show.category}</p>
-          <a href="./../../../movie_details.html?movieId=${index}" class="bookTicketButton">Book Ticket</a>
-          <p id="error"></p>`;
-
-      head.append(div);
-      return {
-        name: show.title.toLowerCase(),
-        img: show.img,
-        category: show.category,
-        element: div,
-      };
-    });
-
+      const movies = await response.json();
+      renderMovies(movies);
+  } catch (error) {
+      console.error("Error fetching movies:", error);
   }
-});
+}
 
-
-// async function fetchMovies() {
-//   try {
-//       const response = await fetch("http://localhost:8080/movies");
-//       if (!response.ok) {
-//           throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const movies = await response.json();
-      
-      
-      
-//       renderMovies(movies);
-//   } catch (error) {
-//       console.error("Error fetching movies:", error);
-//   }
-// }
 
 function renderMovies(movies) {
 
   movies.forEach((movie, index) => {
+    if (index ==0) {
+          return;
+            }
     const div = document.createElement("div");
+    console.log(div);
+    
     div.classList.add("movie-container");
     div.innerHTML = `
-        <img src="${movie.img_url}" alt="${movie.name}">
-        <h3>${movie.movie_name}</h3> 
+        <img src="${movie.imgUrl}" alt="${movie.movie_name}">
+        <h3>${movie.movieName}</h3> 
         <p>${movie.genre}</p>
         <a href="./../../../movie_details.html?movieId=${movie.id}" class="bookTicketButton">Book Ticket</a>
         <p id="error"></p>`;
@@ -146,63 +125,175 @@ function renderMovies(movies) {
     head.append(div);
   });
 }
+let  searchBar = document.querySelector(".search-input");
 
-searchBar.addEventListener("input", (e) => {
-  const value = e.target.value.toLowerCase();
+// searchBar.addEventListener("input", (e) => {
+//   const value = e.target.value.toLowerCase();
+//   const error = document.querySelector('.error');
+//   const movieContainer = document.getElementById("movieContainer"); // Make sure your movie list has this ID
+//   const carousel = document.getElementById("carouselExample");
+//   const footer = document.querySelector(".footer");
 
-  let isAnyMovieVisible = false;
-  const error = document.querySelector('.error'); 
+//   if (value === "") {
+//     carousel.style.display = "block";
+//     movieContainer.innerHTML = "";
+//     if (error) error.style.display = "none";
+//     return;
+//   }
 
- 
-  document.getElementById("carouselExample").style.display = "none";
-
-  movies.forEach((movie) => {
-    const isVisible = movie.name.toLowerCase().includes(value);
-    
-    movie.element.style.display = isVisible ? "block" : "none";
-    
-    if (searchBar.value === "") {
-     
-      window.location.reload();
-      document.getElementById("carouselExample").style.display = "block";
-    }
-
-    if (isVisible) {
-      isAnyMovieVisible = true;
-    }
-  });
-
-  if (!isAnyMovieVisible) {
+//   carousel.style.display = "none";
+//    let url=`http://localhost:8080/movies/search?query=${value}`;
+//    console.log(url);
    
-    if (!error) {
-     let  footer=document.querySelector(".footer")
-      const errorElement = document.createElement('div');
-      errorElement.classList.add('error');
-      errorElement.innerHTML = "Movie not found";
-      document.body.appendChild(errorElement);
-      footer.style.display="none"
+//   fetch(url)
+//     .then(res => res.json())
+//     .then(movies => {
+//       movieContainer.innerHTML = "";
 
+//       if (movies.length === 0) {
+//         if (!error) {
+//           const errorElement = document.createElement('div');
+//           errorElement.classList.add('error');
+//           errorElement.innerHTML = "Movie not found";
+//           document.body.appendChild(errorElement);
+//           footer.style.display = "none";
+//         } 
+//         else {
+//           error.style.display = "block";
+//         }
+//       }
+//        else {
+//         if (error) error.style.display = "none";
+//         footer.style.display = "block";
+
+//         // Render each movie
+//         movies.forEach(movie => {
+//           const movieDiv = document.createElement('div');
+//           movieDiv.classList.add("movie-card"); // Or your specific card class
+//           movieDiv.innerHTML = `
+//             <img src="${movie.imgUrl}" alt="${movie.movieName}" />
+//             <h3>${movie.movieName}</h3>
+//             <p>${movie.genre}</p>
+//             <p>Rating: ${movie.rating}</p>
+//           `;
+//           movieContainer.appendChild(movieDiv);
+//         });
+//       }
+//     })
+//     .catch(error => {
+//       console.error("Error fetching movies:", error);
+//     });
+// });
+
+
+// Profile page view
+
+searchBar.addEventListener("input", async (e) => {
+  const query = e.target.value.trim().toLowerCase();  
+  
+  const carousel = document.getElementById("carouselExample");
+  if (searchBar==""){
+     window.location.reload()
+  }
+
+  let error = document.querySelector(".error");
+
+  if (!query) {  
+    carousel.style.display = "block";
+    movieContainer.innerHTML = "";  
+    if (error) error.style.display = "none";  // Hide error message
+    return;
+  }
+
+  carousel.style.display = "none";  // Hide carousel during search
+
+
+  try {
+
+    const response = await fetch(`http://localhost:8080/movies/search?query=${query}`);
+    
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    
+    const responseText = await response.text(); 
+    console.log("Response Text:", responseText);  
+
+
+    if (!responseText) {
+      throw new Error("Empty response from server");
+    }
+
+
+    // Now try to parse it as JSON
+    let movies = [];
+    try {
+
+      movies = JSON.parse(responseText);  // Parse the JSON manually
+    } 
+    
+    catch (e) {
+      console.error("Error parsing JSON:", e);
+      return;
+    }
+
+    console.log("Movies data:", movies);
+
+   
+
+    // Clear the movie container before rendering new results
+    head.innerHTML = "";
+
+    if (movies.length === 0) {
+      // Display error message if no movies found
+      if (!error) {
+        error = document.createElement("div");
+        error.className = "error";
+        error.textContent = "No movies found";
+        document.body.appendChild(error);
+      } else {
+        error.style.display = "block";
+      }
+      return;
+    }
+    if (error) error.style.display = "none";
+
+    movies.forEach((movie) => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+      card.innerHTML = `
+        <img src="${movie.imgUrl}" alt="${movie.movieName}" />
+        <h3>${movie.movieName}</h3>
+        <p>${movie.genre}</p>
+        <a href="./../../../movie_details.html?movieId=${movie.id}" class="bookTicketButton">Book Ticket</a>
+        <p>Rating: ${movie.rating}</p>
+      `;
+      head.appendChild(card);
+    });
+
+  }
+   
+  catch (err) {
+    console.error("Failed to fetch movies:", err);
+    if (!error) {
+      error = document.createElement("div");
+      error.className = "error";
+      // error.textContent = "An error occurred while fetching movies.";
+      document.body.appendChild(error);
     } else {
       error.style.display = "block";
-    }
-  } else {
-    // Hide error message if movies are found
-    if (error) {
-      error.style.display = "none";
     }
   }
 });
 
 
-// Profile page view
-
 let profileIcon = document.querySelector(".user-actions");
 
-profileIcon.addEventListener("click", ()=>{
+profileIcon.addEventListener("click", () => {
   console.log("click");
-  
-    window.location.href = "..../../../../../profile.html";
-})
+  window.location.href = "..../../../../../profile.html";
+});
 
-
-document.addEventListener("DOMContentLoaded", fetchMovies);
+document.addEventListener("DOMContentLoaded", fetchMovies);  // Fetch movies on initial page load

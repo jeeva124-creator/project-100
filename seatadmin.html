@@ -1,221 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!-- <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theatre Seat Arrangement</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 60%;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        select {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px 0;
-        }
-
-        button {
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .seat-layout {
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 14px;
-            white-space: pre;
-        }
-
-        .seat-row {
-            margin: 5px 0;
-            padding: 5px;
-        }
-    </style>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-        import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
-
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAFcYTP81HkpKz468_YVdZjbdpn7BSEzIc",
-            authDomain: "movie-ticket-booking-a713e.firebaseapp.com",
-            databaseURL: "https://movie-ticket-booking-a713e-default-rtdb.firebaseio.com",
-            projectId: "movie-ticket-booking-a713e",
-            storageBucket: "movie-ticket-booking-a713e.firebasestorage.app",
-            messagingSenderId: "791048807463",
-            appId: "1:791048807463:web:bbb600b5a3a3b2e26eda02",
-            measurementId: "G-ZK48NYGYDP",
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        const theatres = {
-            "PVR: Palazzo,The Nexus Vijaya Mall": [
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X"
-            ],
-            "Cinepolis: BSR Mall, OMR, Thoraipakkam": [
-               "X X X X X X X X X X X X X _ _ _ _ _ _ _  X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ X X X X X X X X X X X X X"
-            ],
-            "The Vijay Park Multiplex: Injambakkam ECR 4K Atmos": [
-                "X X X X X X X X X X X X X _ _ _ _ _ _ _ _ X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X _ _ _ _ X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X",
-                "X X X X X X X X X X X X X_ _ _ _ _ _ _ X X X X X X X X X X X X X"
-            ]
-            
-        };
-
-
-        // Function to preprocess layout with row-based seat numbering
-        const preprocessLayout = (layout) => {
-            return layout.map(row => {
-                let seatNumber = 1;
-                return row.split(' ').map(char => {
-                    if (char === 'X') {
-                        return seatNumber++;
-                    }
-                    return char;
-                }).join(' ');
-            });
-        };
-        
-        
-
-        // Render the selected layout
-        const renderSeatLayout = (layout) => {
-            const seatLayoutContainer = document.querySelector('.seat-layout');
-            seatLayoutContainer.innerHTML = ""; // Clear existing content
-
-            layout.forEach(row => {
-                const rowElement = document.createElement('div');
-                rowElement.classList.add('seat-row');
-                rowElement.textContent = row;
-                seatLayoutContainer.appendChild(rowElement);
-            });
-        };
-        function changeToJSon(data) {
-    return data.map(row => {
-        let seats = row.split(" ");
-        return seats.map(seat => {
-            return { [seat]: false }; 
-        });
-    });
-}
-
-        // Save seat layout to Firebase
-        const saveSeatLayoutToFirebase = async (theatre, layout) => {
-            const processedLayout = preprocessLayout(layout);
-            console.log(processedLayout);
-            
-          
-            
-            const seatRef = ref(db, `theatres/${theatre}/seats`);
-            try {
-                await set(seatRef, processedLayout);
-                console.log(`${theatre} seat layout saved to Firebase`);
-            } catch (error) {
-                console.error(`Error saving ${theatre} seat layout:`, error);
-            }
-        };
-
-        // Update Seat Layout when Theatre is Selected
-        const theatreSelect = document.getElementById('theatreSelect');
-        const updateSeatsBtn = document.getElementById('update-seats-btn');
-
-        let selectedLayout = []; // To store the selected layout
-
-        theatreSelect.addEventListener('change', () => {
-            const selectedTheatre = theatreSelect.value;
-            if (selectedTheatre) {
-                selectedLayout = theatres[selectedTheatre];
-                renderSeatLayout(selectedLayout);
-            } else {
-                document.querySelector('.seat-layout').innerHTML = ""; // Clear seat layout if no theatre is selected
-            }
-        });
-
-        // Save the selected layout to Firebase when the button is clicked
-        updateSeatsBtn.addEventListener('click', () => {
-            const selectedTheatre = theatreSelect.value;
-            if (selectedTheatre && selectedLayout.length > 0) {
-                saveSeatLayoutToFirebase(selectedTheatre, selectedLayout);
-                alert(`${selectedTheatre} layout updated successfully!`);
-            } else {
-                alert("Please select a theatre and a layout first.");
-            }
-        });
-
-        // Populate Theatre Dropdown
-        Object.keys(theatres).forEach(theatre => {
-            const option = document.createElement('option');
-            option.value = theatre;
-            option.textContent = theatre;
-            theatreSelect.appendChild(option);
-        });
-    </script>
+  <title>Admin Panel – Seat Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    label, select, button {
+      margin: 10px 0;
+      display: block;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #007acc;
+    }
+    #seat-container {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 500px;
+    }
+    .seat {
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-width: 40px;
+      text-align: center;
+    }
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Theatre Seat Arrangement</h1>
 
-        <label for="theatreSelect">Select Theatre:</label>
-        <select id="theatreSelect">
-            <option value="">--Select a Theatre--</option>
-        </select>
+  <h2>Admin Panel – Seat Manager</h2>
 
-        <button id="update-seats-btn">Update Seat Layout</button>
+  <label for="screenId">Select Screen ID:</label>
+  <select id="screenId">
+    <option value="1">Screen 1</option>
+    <option value="2">Screen 2</option>
+    <option value="3">Screen 3</option>
+  </select>
 
-        <div class="seat-layout">
-            <!-- Seat Layout will be rendered here -->
-        </div>
-    </div>
+  <button onclick="generateSeats()">Generate Seats</button>
+  <button onclick="viewSeats()">View Seats</button>
+
+  <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
+
+  <div id="seat-container"></div>
+
+  <script>
+    function generateSeats() {
+      const screenId = document.getElementById('screenId').value;
+
+      fetch(``, {
+        method: 'POST'
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to generate seats");
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('result').innerText = data;
+      })
+      .catch(error => {
+        document.getElementById('result').innerText = error.message;
+      });
+    }
+
+    function viewSeats() {
+      const screenId = document.getElementById('screenId').value;
+
+      fetch(``)
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to fetch seats");
+        return response.json();
+      })
+      .then(data => {
+        const container = document.getElementById('seat-container');
+        container.innerHTML = '';
+        data.forEach(seat => {
+          const seatDiv = document.createElement('div');
+          seatDiv.classList.add('seat');
+          seatDiv.innerText = seat.rowLabel + seat.seatNumber;
+          container.appendChild(seatDiv);
+        });
+      })
+      .catch(error => {
+        document.getElementById('result').innerText = error.message;
+      });
+    }
+  </script>
+
 </body>
-
-</html>
+</html> -->

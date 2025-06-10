@@ -25,36 +25,45 @@ const db = getDatabase(app);
 const urlParams = new URLSearchParams(window.location.search);
 const selectedShowId = urlParams.get("id");
 const movieName = urlParams.get("moviename");
+let selectedDate=localStorage.getItem("selectDate")
+
+console.log(urlParams);
+console.log(selectedShowId);
+console.log(movieName);
+
 
 const movieNameElement = document.querySelector(".movieName");
 
 // Fetch movie details from Firebase
-async function fetchMovieDetails() {
-  try {
-    const movieRef = ref(db, `/movies/${selectedShowId}`);
-    const snapshot = await get(movieRef);
+// async function fetchMovieDetails() {
+//   try {
+//     const movieRef = ref(db, `/movies/${selectedShowId}`);
+//     const snapshot = await get(movieRef);
+//      console.log(movieRef);
 
-    if (snapshot.exists()) {
-      const movieData = snapshot.val();
-      movieNameElement.innerHTML = `
-        <img src="${movieData.movieImg}" alt="${movieData.title}" />
-        <div>
-        <h1>${movieData.title}</h1>
-        <p>${movieData.Languages}</p>
-        </div>
-      `;
+//     if (snapshot.exists()) {
+//       const movieData = snapshot.val();
+//       movieNameElement.innerHTML = `
+//         <img src="${movieData.movieImg}" alt="${movieData.title}" />
+//         <div>
+//         <h1>${movieData.title}</h1>
+//         <p>${movieData.Languages}</p>
+//         </div>
+//       `;
 
-      localStorage.setItem("movieimg", movieData.movieImg);
-      localStorage.setItem("title", JSON.stringify(movieData.title));
-    } else {
-      console.log("No movie found with the given ID.");
-    }
-  } catch (error) {
-    console.error("Error fetching movie details:", error);
-  }
-}
+//       localStorage.setItem("movieimg", movieData.movieImg);
+//       localStorage.setItem("title", JSON.stringify(movieData.title));
+//     } else {
+//       console.log("No movie found with the given ID.");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching movie details:", error);
+//   }
+// }
+
 
 // Render available dates for the next 7 days
+
 function renderDate(dates) {
   const container = document.querySelector("#dateContainer");
   container.innerHTML = ""; // Clear existing dates
@@ -67,22 +76,23 @@ function renderDate(dates) {
     fragment.appendChild(dateDiv);
   });
 
+
   container.appendChild(fragment);
   attachDateListeners();
 }
 
 function getDates() {
   const dateArr = [];
+
   const options = { weekday: "short", day: "numeric" };
 
   for (let i = 0; i < 7; i++) {
-    const newDate = new Date();
-    newDate.setDate(newDate.getDate() + i);
-    dateArr.push(new Intl.DateTimeFormat("en-US", options).format(newDate));
+    dateArr.push(getFormattedDate(i));
   }
-
+  
   renderDate(dateArr);
 }
+
 
 function attachDateListeners() {
   document.querySelectorAll(".dateItems").forEach(element => {
@@ -92,84 +102,165 @@ function attachDateListeners() {
 
       element.classList.add("dateActive");
       localStorage.setItem("selectDate", element.textContent);
+      selectedDate=element.textContent
+      showDetails()
       document.querySelectorAll(".showTimings").forEach(el => el.style.display = "flex");
     });
   });
+
 }
 
-// Fetch and display theater details
-async function fetchTheaterDetails() {
+async function showDetails() {
+
   try {
-    const theatreRef = ref(db, `theatre/${movieName}`);
-    const snapshot = await get(theatreRef);
-    const container = document.querySelector("#theatresContainer");
-    container.innerHTML = ""; // Clear previous content
 
-    if (snapshot.exists()) {
-      const theatreData = snapshot.val();
+    const response = await fetch(`http://localhost:8080/api/shows/${selectedShowId}`);
 
-      for (const theatreKey in theatreData) {
-        const theatreInfo = theatreData[theatreKey];
-        const div = document.createElement("div");
-        div.classList.add("showdiv");
 
-        div.innerHTML = `
-          <a class="theaterName">${theatreInfo.theaterName}</a>
-          <div class="timeContainer"></div>
-          <div class="service">
-            <div class="mobil">
-              <img src="/assets/image/check.png" alt="M-Ticket">
-              <label>M-Ticket</label>
-            </div>
-            <div class="food">
-              <img src="/assets/image/food (1).png" alt="Food">
-              <label>Food & Beverage</label>
-            </div>
-          </div>
-        `;
-
-        const timeContainer = div.querySelector(".timeContainer");
-
-        theatreInfo.times.forEach(time => {
-          const timeElement = document.createElement("p");
-          timeElement.textContent = time;
-          timeElement.classList.add("time");
-          timeContainer.appendChild(timeElement);
-
-          timeElement.addEventListener("click", () => {
-            const theaterName = theatreInfo.theaterName.trim();
-            localStorage.setItem("theaterName", theaterName);
-            localStorage.setItem("movieTime", time);
-          
-            let login = localStorage.getItem("loggedInAccount");
-          
-            if (!login) {  
-              alert("Please log in first");
-              window.location.href = "/login.html";
-              return; 
-            }
-          
-            if (document.querySelector(".dateActive")) {
-              window.location.href = "Seat.html";
-            } else {
-              alert("Please select a date first");
-            }
-          });
-          
-        });
-
-        container.appendChild(div);
-      }
-    } else {
-      console.log("No theater data found.");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const show = await response.json();
+    console.log(show);
+
+    const movie = show.movie;
+    movieNameElement.innerHTML = `
+        <img src="${movie.imgUrl}" alt="${movie.movieName}" />
+        <div>
+          <h1>${movie.movieName}</h1>
+          <p>${movie.genre}</p>
+        </div>
+      `;
+      localStorage.setItem("movieimg",movie.imgUrl)
+      localStorage.setItem("title",movie.movieName)
+      
+
+    let tittle = document.querySelector(".title")
+
+    tittle.textContent = movie.movieName
+
+
+    const container = document.querySelector("#theatresContainer");
+    container.innerHTML = "";
+
+
+    const theater = show.theater;
+    const time = show.showTime;
+
+    let Showtime = await fetch("http://localhost:8080/api/shows")
+
+    let times = await Showtime.json()
+    console.log(times);
+
+
+    const div = document.createElement("div");
+    div.classList.add("showdiv");
+    const date = new Date();
+
+    const day = date.getDate();
+    const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+    let todayDate=getFormattedDate(0)
+    const isTodaySelected = selectedDate === todayDate;
+
+    const formatted = `${day} ${weekday}`;
+    console.log(formatted);
+
+    div.innerHTML = `
+    
+    <a class="theaterName">${theater.name}</a>
+
+    <div class="timeContainer">
+    
+     ${
+  times.showTimings
+    .map((time) => {
+      const now = new Date();
+      const showTime = new Date(now); 
+
+      const [timePart, meridian] = time.trim().split(" ");
+      let [hours, minutes] = timePart.split(":").map(Number);
+
+
+      if (meridian === "PM" && hours < 12) hours += 12;
+      if (meridian === "AM" && hours === 12) hours = 0;
+
+      showTime.setHours(hours, minutes, 0, 0);
+
+      // If selected date is today, show only future times
+      if (isTodaySelected) {
+        if (showTime > now) {
+          return `<button class="showTimeBtn">${time}</button>`;
+        }
+        return "";
+      } else {
+      
+        return `<button class="showTimeBtn">${time}</button>`;
+      }
+
+    })
+
+    .join("")
+}
+
+    
+
+    </div>
+    <div class="service">
+      <div class="mobil">
+        <img src="/assets/image/check.png" alt="M-Ticket">
+        <label>M-Ticket</label>
+      </div>
+      <div class="food">
+        <img src="/assets/image/food (1).png" alt="Food">
+        <label>Food & Beverage</label>
+      </div>
+    </div>
+  `;
+
+    container.appendChild(div);
+
+    document.querySelectorAll(".showTimeBtn").forEach((showBtn) => {
+      showBtn.addEventListener("click", (e) => {
+
+
+        localStorage.setItem("showtime", e.target.textContent);
+        let login = localStorage.getItem("loggedInAccount");
+
+        if (!login) {
+          alert("Please log in first");
+          window.location.href = "/login.html";
+          return;
+        }
+        if (document.querySelector(".dateActive")) {
+          localStorage.setItem("theater",theater.name)
+          window.location.href = "Seat.html";
+        } else {
+          alert("Please select a date first");
+        }
+      })
+    })
+
+
   } catch (error) {
-    console.error("Error fetching theater details:", error);
+    console.error("Error fetching movie:", error);
   }
 }
 
 
-// Initialize functions
-fetchMovieDetails();
+function getFormattedDate(dayCount) {
+   const options = { weekday: "short", day: "numeric" };
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + dayCount);
+    return new Intl.DateTimeFormat("en-US", options).format(newDate);
+}
+
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+selectedDate=getFormattedDate(0)
 getDates();
-fetchTheaterDetails();
+showDetails();
+document.querySelector(".dateItems").classList.add("dateActive")
+})

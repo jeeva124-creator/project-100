@@ -1,69 +1,48 @@
-let image=localStorage.getItem("movieimg")
-let selectedDate=localStorage.getItem("selectedDate")
-let selectedtime=localStorage.getItem("movieTime")
-let theatername=localStorage.getItem("theaterName")
-let movieTitle=localStorage.getItem("title")
-let seats=localStorage.getItem("selectedSeats")
-let totalprice=localStorage.getItem("totalPrice")
+// Get values from localStorage
+let movieimg = localStorage.getItem("movieimg");
+let selectedDate = localStorage.getItem("selectedDate");
+let movieTime = localStorage.getItem("movieTime");
+let theaterName = localStorage.getItem("theaterName");
+let title = localStorage.getItem("title");
+let selectedSeats = localStorage.getItem("selectedSeats");
+let totalPrice = localStorage.getItem("totalPrice");
+let recipientMail = localStorage.getItem("loggedInAccount");
 
+console.log(recipientMail);
 
-
-
-function TicketLoded(){
- 
-    document.body.innerHTML=`
-    
-<div class="m-ticket">
-  
-  <p class="m">M-Ticket</p>
-  
-  <div class="movie-details">
-    <img src="${image}" class="poster">
-    
-    <div class="movie">
-      <h4>${movieTitle.slice(1,-1)}</h4>
-      
-      <p>Tamil, 2D</p>
-      <p>${selectedDate} | ${selectedtime}</p>
-      <p>${theatername}</p>
-    </div>
-    
-  </div>
-  
-  <div class="info">
-    Tap for support, details & more actions
-  </div>
-  
-  <div class="ticket-details">
-    <img src="https://pngimg.com/uploads/qr_code/qr_code_PNG2.png" class="scan">
-    
-    <div class="ticket">
-      <p>3Ticket(s)</p>
-      
-      <b>SCREEN 1</b>
-      
-      <p>PR-${seats.slice(1,-1)}</p>
-      
-      <h6>BOOKING ID: Tbafeq7</h6>
-      
-    </div>
-    
-  </div>
-  
-  <div class="info-cancel">
-   Cancellation not available for this venue
-  </div>
-  
-  <div class="total-amount">
-    <p>Total Amount</p>
-    
-    <p>Rs.${totalprice}</p>
-  </div>
-  <p>Payment Successful!</p>
-  
- <p> Thank you for booking your tickets, </p>
-        <a href="/index.html">Go to home page</a>`;
-  
-
+// Clean string if necessary (e.g., removing quotes from stringified values)
+if (title?.startsWith('"') || title?.startsWith("'")) {
+  title = title.slice(1, -1);
 }
-TicketLoded()
+if (selectedSeats?.startsWith('"') || selectedSeats?.startsWith("'")) {
+  selectedSeats = selectedSeats.slice(1, -1);
+}
+
+// Initialize EmailJS
+emailjs.init("3Hd_ekhPnP-jId24T"); // Replace with your EmailJS public key
+
+function sendTicketEmail() {
+  const templateParams = {
+    to_email: recipientMail,
+    movieimg: movieimg,
+    selectedDate: selectedDate,
+    movieTime: movieTime,
+    theaterName: theaterName,
+    title: title,
+    selectedSeats: selectedSeats,
+    totalPrice: totalPrice
+  };
+
+  emailjs
+    .send("service_s9egnjs", "template_bpcr8wl", templateParams)
+    .then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+        alert("Ticket has been sent to your email!");
+      },
+      function (error) {
+        console.error("FAILED...", error);
+        alert("Failed to send ticket. Please try again.");
+      }
+    );
+}

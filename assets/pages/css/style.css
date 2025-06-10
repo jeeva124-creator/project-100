@@ -94,6 +94,20 @@ i{
 
 
 }
+.movie-card{
+  padding: 13px;
+  border: 1px solid gray;
+  margin:10px;
+  border-radius: 5px;
+  
+}
+.movie-card p{
+  padding: 5px;
+}
+.movie-card a{
+  margin: 10px;
+}
+
 .search-bar {
   display: flex;
   padding: 20px;
@@ -263,13 +277,13 @@ footer .social-media a {
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: black; /* Set the arrow icon color to black */
+  background-color: black; 
 }
 
-/* Optional: Add hover effect for arrows */
+
 .carousel-control-prev-icon:hover,
 .carousel-control-next-icon:hover {
-  background-color: #333; /* Darker shade of black when hovered */
+  background-color: #333; 
 }
 
 

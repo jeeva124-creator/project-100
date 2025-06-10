@@ -1,11 +1,10 @@
-// Firebase and other initialization code stays as it is
+// Firebase Initialization
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   get,
-} 
-from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -19,163 +18,117 @@ const firebaseConfig = {
   measurementId: "G-ZK48NYGYDP",
 };
 
-let previousbutton = document.querySelector(".back-button");
-let selectedDate = localStorage.getItem("selectDate");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
+// Variables
+const previousbutton = document.querySelector(".back-button");
+const selectedDate = localStorage.getItem("selectDate");
+const selectedtheater = localStorage.getItem("theaterName");
+const seatContainer = document.getElementById('seatContainer');
+const showId = 2;
+
+
+// Back button
 previousbutton.addEventListener("click", () => {
   window.history.back();
 });
 
-let queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const selectedtheater = localStorage.getItem("theaterName");
-console.log(selectedtheater);
+// Ticket Summary UI Update
+     const SEAT_PRICE = 190;
+        let selectedSeats = [];
+        let totalPrice = 0;
+        console.log();
+// Fetch seat layout from backend
+fetch(`http://localhost:8080/seats/show/${showId}`)
+  .then(response => response.json())
+  .then(seats => {
+    let rows = {};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let seatContainer = document.querySelector(".layout");
-
-let selectedSeats = [];
-let totalPrice = 0;
-const SEAT_PRICE = 190;
-
-let selectis = false;
-function toggleSeatSelection(seatElement) {
-  if (seatElement.classList.contains("bookedseat")) {
-    return;
-  }
-  if (seatElement.classList.contains("selected")) {
-    // Deselect the seat
-    seatElement.classList.remove("selected");
-    selectis = true;
-
-    const seatIndex = selectedSeats.indexOf(seatElement.textContent);
-    if (seatIndex > -1) {
-      selectedSeats.splice(seatIndex, 1);
-      totalPrice -= SEAT_PRICE;
-    }
-
-  } 
-  else {
-    seatElement.classList.add("selected");
-    selectedSeats.push(seatElement.textContent);
-    totalPrice += SEAT_PRICE;
-  }
-  updateTicketSummary();
-  
-}
-
-// Function to update ticket summary
-function updateTicketSummary() {
-  const ticketSummary = document.getElementById("ticketSummary");
-  ticketSummary.textContent = `${selectedSeats.length} Tickets`;
-
-  const totalPriceElement = document.getElementById("totalPrice");
-  totalPriceElement.textContent = `Total Price: ₹${totalPrice}`;
-
-  const selectedSeatsElement = document.getElementById("selectedSeats");
-  selectedSeatsElement.textContent = `Selected Seats: ${selectedSeats.join(
-    ", "
-  )}`;
-}
-
-// Function to handle seat rendering
-function renderLayout(dataObj, bookedSeats) {
-  seatContainer.innerHTML = ""; // Clear any previous seat layout
-  console.log(dataObj);
-
-  dataObj.forEach((rowData, rowIndex) => {
-    let container = document.createElement("div");
-    container.classList.add("row");
-    rowData = rowData.split(" ");
-
-    rowData.forEach((seat) => {
-      const seatLabel = String.fromCharCode(65 + rowIndex) + seat;
-      let isBooked;
-      
-
-      if (!Array.isArray(bookedSeats)) {
-        isBooked = false;
-      } else {
-        isBooked = bookedSeats.includes(seatLabel);
-        console.log(seatLabel);
+    seats.forEach(seat => {
+      if (!rows[seat.rowLabel]) {
+        rows[seat.rowLabel] = [];
       }
-      console.log(isBooked);
-
-      let newBox = document.createElement("div");
-
-
-      if (seat === "_" || seat === "x") {
-        newBox.classList.add("hide")
-        newBox.textContent = seat;
-       
-      } else {
-        newBox.classList.add("column");
-        if (isBooked) {
-          
-
-          newBox.classList.add("bookedseat");
-        }
-        newBox.textContent = seatLabel;
-
-        // Add event listener for seat selection
-        newBox.addEventListener("click", function () {
-          if (!newBox.classList.contains("sold")) {
-            toggleSeatSelection(newBox);
-          }
-        });
-      }
-
-      container.appendChild(newBox);
+      rows[seat.rowLabel].push(seat);
     });
-    seatContainer.appendChild(container);
-  });
-}
 
+    Object.keys(rows).sort().forEach(rowLabel => {
+      const rowDiv = document.createElement('div');
+      rowDiv.classList.add('row');
+      const sortedSeats = rows[rowLabel].sort((a, b) => a.columnNumber - b.columnNumber);
 
-// Fetch seat layout from Firebase and render
-async function getLayout() {
-  let movieTime=localStorage.getItem("movieTime")
-  try {
-    const getref = ref(db, `theatres/${selectedtheater}/seats`);
-    const response = await get(getref);
-    
-    const bookedSeatRef = ref(db, `booked/${selectedtheater}/${selectedDate}/${movieTime}`);
-    const bookedSeatResponse = await get(bookedSeatRef);
+      sortedSeats.forEach((seat) => {
+        const seatDiv = document.createElement('div');
+        const seatLabel = `${seat.rowLabel}${seat.columnNumber}`;  
+        seatDiv.className = `seat ${seat.booked ? 'booked' : 'available'}`;
+        seatDiv.innerText = seatLabel;
+        
+
+        // Add gap after column 4 and 12
+        if (seat.columnNumber === 4 || seat.columnNumber === 12) {
+          const gap = document.createElement('div');
+          gap.classList.add('gap');
+          rowDiv.appendChild(gap);
+        }
+       
+        
+
+        // Only add click event if not booked
+        if (!seat.booked) {
+          seatDiv.addEventListener('click', () => {
+            if (seatDiv.classList.contains('selected')) {
+              // Deselect
+              seatDiv.classList.remove('selected');
+              const index = selectedSeats.indexOf(seatLabel);
+              if (index !== -1) {
+                selectedSeats.splice(index, 1);
+                totalPrice -= SEAT_PRICE;
+              }
+            } else {
+              // Select
+              seatDiv.classList.add('selected');
+            selectedSeats.push(seatLabel);
+              totalPrice += SEAT_PRICE; 
+            }
+
+            updateTicketSummary();
+          });
+        }
+
+        function updateTicketSummary() {
+          const ticketSummary = document.getElementById("ticketSummary");
+          const totalPriceElement = document.getElementById("totalPrice");
+          const selectedSeatsElement = document.getElementById("selectedSeats");
+
+          ticketSummary.textContent = `${selectedSeats} Tickets`;
+
+          totalPriceElement.textContent = `Total Price: ₹${totalPrice}`;
+          selectedSeatsElement.textContent = `Selected Seats: ${selectedSeats.join(", ")}`;
+        }
+
+        rowDiv.appendChild(seatDiv);
+      });
+
+      seatContainer.appendChild(rowDiv);
+    });
+
    
-    if (response.exists()) {
-      const data = response.val();
-      const bookedSeats = bookedSeatResponse.val();
+  })
+  .catch(error => console.error('Error loading seats:', error));
 
-
-      renderLayout(data, bookedSeats);
-    } else {  
-      console.log("Error: No seat data found");
-    }
-  } catch (err) {
-    console.log("Error fetching layout:", err);
-  }
-}
-
-// Initial call to get seat layout
-getLayout();
-
-// Handle the confirm booking button click
-
-document
-  .getElementById("confirmBooking")
+// Confirm booking
+document.getElementById("confirmBooking")
   .addEventListener("click", function () {
-    if (selectedSeats.length > 0 && selectedSeats.length < 10) {
-      localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
-      localStorage.setItem("totalPrice", totalPrice);
-      window.location.href = "/booking.html";
-    } else if (selectedSeats.length >= 10) {
-      alert("seats selected less than 10");
-    } else {
-      alert("No seats selected !");
+    if (selectedSeats.length === 0) {
+      alert("No seats selected!");
       return;
     }
-    
+    if (selectedSeats.length >= 10) {
+      alert("You can only select less than 10 seats.");
+      return;
+    }
+
+    localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
+    localStorage.setItem("totalPrice", totalPrice);
+    window.location.href = "/booking.html";
   });
