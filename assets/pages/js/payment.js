@@ -98,17 +98,19 @@ let username=localStorage.getItem("userName")
 
        paybtn.addEventListener("click",(e)=>{
         e.preventDefault()
+
+  
    var options = {
-                "key": "rzp_test_IcmcJwBe9zwcga", // Your test Key ID
-                "amount": totalPrice, // Amount is in paise (100 INR)
+                "key": "rzp_test_IcmcJwBe9zwcga", 
+                "amount": totalPrice, 
                 "currency": "INR",
                 "name": username,
                 "description": "Test Transaction",
-                "image": "https://yourdomain.com/logo.png", // Optional
-                // "order_id": "order_XXXX", // Optional - used if backend is creating orders
+                "image": "https://yourdomain.com/logo.png",
+                
                 "handler": function (response) {
                     alert("Payment ID: " + response.razorpay_payment_id);
-                    // You can send this ID to your server to verify payment
+                   
                 },
                 "prefill": {
                     "name": username,
@@ -123,7 +125,7 @@ let username=localStorage.getItem("userName")
             var rzp = new Razorpay(options);
             rzp.open();
        })
-       
+
          
         
     // Form submission
