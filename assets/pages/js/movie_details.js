@@ -131,7 +131,7 @@ console.log(selectedMovieId);
 
 
   try {
-      const response = await fetch(`http://localhost:8080/movies/${selectedMovieId}`);
+      const response = await fetch(`https://jeevanantham21-cineworld.hf.space/api/movies/${selectedMovieId}`);
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }

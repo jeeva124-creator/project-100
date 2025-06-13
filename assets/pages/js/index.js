@@ -92,7 +92,7 @@ function updateUI(user) {
 async function fetchMovies() {
   try {
 
-      const response = await fetch("http://localhost:8080/movies")
+      const response = await fetch("https://jeevanantham21-cineworld.hf.space/api/movies")
     console.log(response);
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
